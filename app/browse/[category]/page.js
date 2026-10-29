@@ -11,13 +11,26 @@ export default async function Browse({ params, searchParams }) {
   if (!data) notFound();
   const total = Math.min(data.total_pages || 1, 500);
   return (
-    <main className="wrap section">
-      <h2 style={{ fontSize: 26, margin: "24px 0" }}>{data.title}</h2>
+    <main className="wrap page">
+      <div className="page-head">
+        <p className="eyebrow">Browse</p>
+        <h1 className="page-title">{data.title}</h1>
+      </div>
       <Grid items={data.results} type={data.type} />
       <div className="pager">
-        {page > 1 && <Link href={`/browse/${category}?page=${page - 1}`}>← Prev</Link>}
-        <span style={{ alignSelf: "center", color: "var(--muted)" }}>Page {page} of {total}</span>
-        {page < total && <Link href={`/browse/${category}?page=${page + 1}`}>Next →</Link>}
+        {page > 1 && (
+          <Link className="glass" href={`/browse/${category}?page=${page - 1}`}>
+            ← Prev
+          </Link>
+        )}
+        <span>
+          Page {page} of {total}
+        </span>
+        {page < total && (
+          <Link className="glass" href={`/browse/${category}?page=${page + 1}`}>
+            Next →
+          </Link>
+        )}
       </div>
     </main>
   );

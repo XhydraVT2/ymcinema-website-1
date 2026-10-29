@@ -19,21 +19,40 @@ export default async function ProviderPage({ params, searchParams }) {
   const base = `/provider/${id}`;
 
   return (
-    <main className="wrap section">
-      <h2 style={{ fontSize: 26, margin: "24px 0 8px" }}>Hindi {type === "tv" ? "series" : "movies"} on {prov.provider_name}</h2>
-      <div style={{ marginBottom: 20 }}>
-        <Link className={`tag ${type === "movie" ? "on" : ""}`} href={`${base}?type=movie`}>Movies</Link>
-        <Link className={`tag ${type === "tv" ? "on" : ""}`} href={`${base}?type=tv`}>TV Shows</Link>
+    <main className="wrap page">
+      <div className="page-head">
+        <p className="eyebrow">Streaming · India</p>
+        <h1 className="page-title">
+          Hindi {type === "tv" ? "series" : "movies"} on {prov.provider_name}
+        </h1>
+      </div>
+      <div style={{ marginBottom: 26 }}>
+        <Link className={`pill ${type === "movie" ? "on" : ""}`} href={`${base}?type=movie`}>
+          Movies
+        </Link>
+        <Link className={`pill ${type === "tv" ? "on" : ""}`} href={`${base}?type=tv`}>
+          TV Shows
+        </Link>
       </div>
       {data.results.length === 0 ? (
-        <p className="err">No Hindi titles listed for this platform right now.</p>
+        <p className="sub">No Hindi titles listed for this platform right now.</p>
       ) : (
         <Grid items={data.results} type={type} />
       )}
       <div className="pager">
-        {page > 1 && <Link href={`${base}?type=${type}&page=${page - 1}`}>← Prev</Link>}
-        <span style={{ alignSelf: "center", color: "var(--muted)" }}>Page {page} of {total}</span>
-        {page < total && <Link href={`${base}?type=${type}&page=${page + 1}`}>Next →</Link>}
+        {page > 1 && (
+          <Link className="glass" href={`${base}?type=${type}&page=${page - 1}`}>
+            ← Prev
+          </Link>
+        )}
+        <span>
+          Page {page} of {total}
+        </span>
+        {page < total && (
+          <Link className="glass" href={`${base}?type=${type}&page=${page + 1}`}>
+            Next →
+          </Link>
+        )}
       </div>
     </main>
   );

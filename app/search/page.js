@@ -10,9 +10,13 @@ export default async function Search({ searchParams }) {
     results = (data.results || []).filter((r) => r.media_type === "movie" || r.media_type === "tv");
   }
   return (
-    <main className="wrap section">
-      <h2 style={{ fontSize: 26, margin: "24px 0" }}>{q ? `Results for “${q}”` : "Search"}</h2>
-      {q && results.length === 0 && <p className="err">Nothing found.</p>}
+    <main className="wrap page">
+      <div className="page-head">
+        <p className="eyebrow">Search</p>
+        <h1 className="page-title">{q ? `Results for “${q}”` : "Search movies & shows"}</h1>
+      </div>
+      {q && results.length === 0 && <p className="sub">Nothing found. Try another title.</p>}
+      {!q && <p className="sub">Use the search icon in the top bar.</p>}
       <Grid items={results} />
     </main>
   );
