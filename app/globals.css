@@ -940,3 +940,9 @@ main.wrap.genre-page > h1 {
     padding-top: 125px !important;
   }
 }
+
+/* V25: Uncluttered CinemaOS-inspired hover. Metadata appears once, below the card. */
+.spotlight-shell .glass-play { top: 50%; left: 50%; transform: translate(-50%, -50%) scale(.88); }
+.spotlight-shell:hover .glass-play, .spotlight-shell:focus-within .glass-play { transform: translate(-50%, -50%) scale(1); }
+.spotlight-shell .cinema-card-info { display: none !important; }
+@media (prefers-reduced-motion: reduce) { .spotlight-shell .glass-play { transition: none; } }
