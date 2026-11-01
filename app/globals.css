@@ -516,3 +516,26 @@ button{font:inherit}
 @media(max-width:1050px){.d-trailer-panel{display:none}.d-hero{min-height:680px}.episode-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:650px){.d-hero{min-height:620px;padding-top:180px}.episodes-section{padding:20px 14px}.episodes-top{align-items:flex-start;flex-direction:column}.episode-item{display:block}.episode-still{width:100%}.episode-details{padding:14px 2px}.episode-grid{grid-template-columns:1fr}.season-menu{left:0;right:auto}.d-info h1{font-size:42px}}
 @media(prefers-reduced-motion:reduce){.episode-still img,.d-trailer-preview img{transition:none!important}}
+
+/* V6 detail page layout rebuild — full-bleed cinematic composition */
+.d-hero{min-height:100svh;min-height: min(1000px,100svh);padding:0 0 clamp(28px,4vh,52px);display:flex;flex-direction:column;justify-content:flex-end;isolation:isolate}
+.d-bg{position:absolute;inset:0;z-index:-2}.d-bg img{object-position:center 27%;object-fit:cover}
+.d-hero::after{z-index:-1;background:linear-gradient(90deg,rgba(3,6,8,.82) 0%,rgba(3,6,8,.48) 35%,rgba(3,6,8,.10) 72%),linear-gradient(0deg,rgba(4,8,9,.94),transparent 37%),linear-gradient(180deg,rgba(2,5,8,.28),transparent 30%)}
+.d-body,.d-infobar-shell{position:relative;z-index:3;width:calc(100% - clamp(36px,5vw,104px));max-width:none;margin-left:auto;margin-right:auto}
+.d-body{padding:0;display:flex;flex-wrap:nowrap;align-items:flex-end;justify-content:space-between;gap:clamp(28px,4vw,80px)}
+.d-info{flex:1 1 670px;max-width:690px;min-width:0;padding-bottom:clamp(10px,2vh,30px)}
+.d-info h1{font-size:clamp(56px,6.5vw,112px);font-weight:900;letter-spacing:-.065em;line-height:.94;margin:20px 0 16px;max-width:750px;text-wrap:balance;text-shadow:0 8px 40px #0009}
+.d-info .ov{font-size:clamp(14px,1.05vw,17px);line-height:1.65;max-width:640px;margin:22px 0 15px;text-shadow:0 2px 12px #0009}
+.d-info .hero-meta{gap:9px;flex-wrap:wrap}.d-info .hero-actions{display:flex;align-items:center;gap:10px;margin-top:20px;flex-wrap:wrap}
+.d-info .hero-actions .btn{min-height:47px;border-radius:999px;padding:12px 23px;transition:transform .25s,background .25s,box-shadow .25s}
+.d-info .hero-actions .btn:hover{transform:translateY(-3px);box-shadow:0 12px 32px #0006}
+.d-info .hero-actions .d-action-icon{width:47px;min-width:47px;padding:0;display:inline-flex;align-items:center;justify-content:center;font-size:22px}
+.d-trailer-panel{margin-left:auto;width:clamp(320px,23vw,410px);padding:14px 14px 18px;flex:0 0 auto;border-radius:24px;background:rgba(17,21,20,.42);backdrop-filter:blur(30px) saturate(135%);-webkit-backdrop-filter:blur(30px) saturate(135%);border:1px solid #ffffff36;box-shadow:0 30px 80px #0007,inset 0 1px #ffffff2c}
+.d-trailer-preview{aspect-ratio:16/10;border-radius:15px}.d-trailer-eyebrow{padding:2px 3px}.d-trailer-cast{padding-top:18px}.d-cast-faces img{width:41px;height:41px}
+.d-infobar-shell{margin-top:clamp(22px,4vh,50px)}
+.d-infobar-shell .infobar{width:100%;min-height:91px;padding:17px 8px;border-radius:19px;display:flex;align-items:center;gap:0;background:rgba(12,17,16,.42);border:1px solid #ffffff28;backdrop-filter:blur(30px) saturate(130%);-webkit-backdrop-filter:blur(30px) saturate(130%);box-shadow:0 18px 60px #0004}
+.d-infobar-shell .infobar>div{padding:0 clamp(15px,2vw,34px)}.d-infobar-shell .infobar .studios{margin-left:auto;max-width:38%}
+.d-infobar-shell .infobar b{font-size:clamp(12px,1vw,16px)}
+@media(max-width:1050px){.d-body{gap:20px}.d-trailer-panel{display:block;width:290px}.d-info h1{font-size:clamp(44px,6vw,72px)}}
+@media(max-width:760px){.d-hero{min-height:760px;min-height:100svh}.d-body,.d-infobar-shell{width:calc(100% - 36px)}.d-body{display:block}.d-info{padding-bottom:0}.d-info h1{font-size:clamp(44px,11vw,72px)}.d-trailer-panel{display:none}.d-infobar-shell{margin-top:25px}.d-infobar-shell .infobar{flex-wrap:wrap;padding:16px 6px;gap:15px 0}.d-infobar-shell .infobar>div{flex:0 0 50%;min-width:0}.d-infobar-shell .infobar .studios{margin-left:0;max-width:none}.d-hero::after{background:linear-gradient(0deg,#06090bdc,transparent 80%),linear-gradient(90deg,#06090bc9,transparent 95%)}}
+@media(prefers-reduced-motion:reduce){.d-info .hero-actions .btn{transition:none}}
