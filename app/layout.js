@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Outfit } from "next/font/google";
 import Navbar from "../components/Navbar";
+import AmbientBackdrop from "../components/AmbientBackdrop";
 
 const font = Outfit({ subsets: ["latin"], display: "swap" });
 
@@ -13,6 +14,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={font.className}>
+        <AmbientBackdrop />
         <Navbar />
         {children}
         <footer className="ymc-footer"><span>YMCINEMA</span></footer>

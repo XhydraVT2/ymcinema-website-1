@@ -576,3 +576,38 @@ main.wrap:has(> .episodes-section) > :not(.episodes-section) { margin-left:var(-
 .d-trailer-panel,.d-infobar-shell .infobar { background:rgba(17,26,30,.29); border-color:rgba(255,255,255,.19); backdrop-filter:blur(30px) saturate(130%); -webkit-backdrop-filter:blur(30px) saturate(130%); }
 @media(max-width:650px) { .episodes-section { padding:36px 18px 60px; } .episode-item:hover { transform:none; } }
 @media(prefers-reduced-motion:reduce) { .episode-item { transition:none; } }
+
+/* V6 unified atmospheric surface: no hard section boundary, no opaque blue cards. */
+:root { --ambient-teal:.28; --ambient-blue:.28; --ambient-amber:0; --ambient-drift:0%; }
+html,body,body:has(.episodes-section) { background:#0a1018 !important; }
+body { isolation:isolate; }
+body::before, body:has(.episodes-section)::before { display:none !important; }
+.ambient-field {
+  position:fixed; inset:-12vh -8vw; z-index:-1; pointer-events:none;
+  background:linear-gradient(145deg,#0b121a 0%,#172331 47%,#0a1018 100%);
+}
+.ambient-field::before,.ambient-field::after { content:""; position:absolute; inset:0; pointer-events:none; }
+.ambient-field::before {
+  background:radial-gradient(ellipse 75% 60% at 18% 24%,rgba(58,133,150,var(--ambient-teal)),transparent 85%),
+    radial-gradient(ellipse 80% 74% at 90% 57%,rgba(48,93,155,var(--ambient-blue)),transparent 85%),
+    radial-gradient(ellipse 70% 60% at 42% 88%,rgba(169,107,72,var(--ambient-amber)),transparent 84%);
+  filter:blur(55px); transform:translateY(var(--ambient-drift));
+  transition:background .5s ease,transform .7s ease;
+}
+.ambient-field::after { background:linear-gradient(180deg,rgba(4,8,13,.12),transparent 28%,rgba(3,7,12,.20)); }
+/* Keep the backdrop visible between and through sections. */
+main.wrap:has(> .episodes-section) { background:transparent!important; isolation:auto!important; }
+main.wrap:has(> .episodes-section)::before { display:none!important; }
+.episodes-section { background:transparent!important; box-shadow:none!important; border:0!important; border-radius:0!important; margin-top:0!important; padding-top:clamp(52px,6vw,90px)!important; }
+.prov-panel { background:rgba(17,31,43,.16)!important; box-shadow:none!important; border-color:rgba(255,255,255,.09)!important; backdrop-filter:none!important; -webkit-backdrop-filter:none!important; }
+.pbanner { background:rgba(10,18,29,.32)!important; border:1px solid rgba(255,255,255,.13); }
+.nav.glass,.d-trailer-panel,.d-infobar-shell .infobar,.season-trigger,.episodes-layout {
+  background:rgba(23,32,43,.33)!important;
+  border-color:rgba(255,255,255,.19)!important;
+  backdrop-filter:blur(28px) saturate(145%)!important;
+  -webkit-backdrop-filter:blur(28px) saturate(145%)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.15),0 12px 36px rgba(0,0,0,.12)!important;
+}
+.d-hero::after { background:linear-gradient(90deg,rgba(5,11,17,.80),rgba(5,11,17,.32) 60%,rgba(5,11,17,.10)),linear-gradient(0deg,#0a1018 0%,transparent 40%)!important; }
+.sec,.episodes-section { position:relative; }
+@media(prefers-reduced-motion:reduce) { .ambient-field::before { transition:none; transform:none; } }
