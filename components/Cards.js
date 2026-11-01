@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import CarouselRail from "./CarouselRail";
 import SpotlightCard from "./SpotlightCard";
+import Reveal from "./Reveal";
 import { IMG } from "../lib/tmdb";
 
 function typeOf(item, type) {
@@ -18,7 +19,7 @@ export function Card({ item, type }) {
     ? `${IMG}/w500${item.poster_path}`
     : null;
   return (
-    <SpotlightCard><Link href={`/${t}/${item.id}`} className="wcard premium-card">
+    <Reveal className="reveal-card"><SpotlightCard><Link href={`/${t}/${item.id}`} className="wcard premium-card">
       <div className="thumb">
         <span className="glass-sheen" aria-hidden="true" />
         <span className="glass-play" aria-hidden="true">▶</span>
@@ -35,13 +36,14 @@ export function Card({ item, type }) {
         <span>{date.slice(0, 4) || "TBA"}</span>
         {item.vote_average > 0 && <span className="rt">★ {item.vote_average.toFixed(1)}</span>}
       </div>
-    </Link></SpotlightCard>
+    </Link></SpotlightCard></Reveal>
   );
 }
 
 export function Section({ eyebrow, title, href, hrefLabel = "Browse all ↗", right, children, id }) {
   return (
     <section className="sec" id={id}>
+      <Reveal className="reveal-section-head">
       <div className="sec-head">
         <div>
           {eyebrow && <p className="eyebrow">{eyebrow}</p>}
@@ -56,6 +58,7 @@ export function Section({ eyebrow, title, href, hrefLabel = "Browse all ↗", ri
           )}
         </div>
       </div>
+      </Reveal>
       {children}
     </section>
   );

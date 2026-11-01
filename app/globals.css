@@ -691,3 +691,19 @@ body { isolation:isolate; }
 @media(max-width:1000px){.hero-content{bottom:155px}.hero + main.wrap{margin-top:-90px!important}}
 @media(max-width:700px){.hero{min-height:570px}.hero-content{bottom:125px}.hero + main.wrap{margin-top:-60px!important}.hero + main.wrap > .sec:first-child{padding-top:18px}}
 @media(prefers-reduced-motion:reduce){.ambient-field::before{transition:none!important}}
+
+/* V9 — scroll-triggered reveals and cinematic detail entrance */
+.cinema-reveal { opacity: 0; transform: translate3d(0, 34px, 0); filter: blur(5px); transition: opacity 760ms cubic-bezier(.2,.75,.25,1), transform 850ms cubic-bezier(.16,1,.3,1), filter 850ms ease; transition-delay: var(--reveal-delay, 0ms); }
+.cinema-reveal.is-visible { opacity: 1; transform: translateZ(0); filter: blur(0); }
+.hrow > .cinema-reveal, .wgrid > .cinema-reveal { flex: 0 0 clamp(250px, 26vw, 370px); min-width: 0; }
+.hrow > .cinema-reveal:nth-child(5n + 2), .wgrid > .cinema-reveal:nth-child(5n + 2) { --reveal-delay: 75ms !important; }
+.hrow > .cinema-reveal:nth-child(5n + 3), .wgrid > .cinema-reveal:nth-child(5n + 3) { --reveal-delay: 150ms !important; }
+.hrow > .cinema-reveal:nth-child(5n + 4), .wgrid > .cinema-reveal:nth-child(5n + 4) { --reveal-delay: 225ms !important; }
+.hrow > .cinema-reveal:nth-child(5n), .wgrid > .cinema-reveal:nth-child(5n) { --reveal-delay: 300ms !important; }
+.detail-enter-info { animation: detail-rise 900ms cubic-bezier(.16,1,.3,1) both; }
+.detail-enter-aside { animation: detail-rise 1050ms 160ms cubic-bezier(.16,1,.3,1) both; }
+.detail-enter-bar { animation: detail-rise 1050ms 300ms cubic-bezier(.16,1,.3,1) both; }
+.d-bg img { animation: detail-zoom 1.8s cubic-bezier(.16,1,.3,1) both; }
+@keyframes detail-rise { from { opacity: 0; transform: translate3d(0,36px,0); filter: blur(7px); } to { opacity: 1; transform: translateZ(0); filter: blur(0); } }
+@keyframes detail-zoom { from { transform: scale(1.07); opacity: .65; } to { transform: scale(1); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .cinema-reveal { opacity: 1; transform: none; filter: none; transition: none; } .detail-enter-info,.detail-enter-aside,.detail-enter-bar,.d-bg img { animation: none; } }
