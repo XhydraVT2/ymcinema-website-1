@@ -878,3 +878,46 @@ body { isolation:isolate; }
   .top10-premium .t10-premium .rank-art { padding-left: 83px; }
   .top10-premium .t10-premium .num { font-size: 150px; width: 100px; -webkit-text-stroke-width: 2.5px; }
 }
+
+/* V21 — Cinema-style episode carousel (third view) */
+.episode-carousel-wrap{position:relative;min-width:0}
+.episode-list.episode-carousel{display:flex;gap:18px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-behavior:smooth;overscroll-behavior-x:contain;scrollbar-width:none;padding:12px 4px 22px;align-items:stretch}
+.episode-carousel::-webkit-scrollbar{display:none}
+.episode-carousel .episode-item{display:block;flex:0 0 clamp(245px,18.8vw,335px);scroll-snap-align:start;min-width:0}
+.episode-carousel .episode-still{width:100%;aspect-ratio:16/9;border-radius:13px}
+.episode-carousel .episode-details{padding:12px 2px 0}
+.episode-carousel .episode-details h3{font-size:16px;line-height:1.3;margin:5px 0 7px}
+.episode-carousel .episode-details p{font-size:12px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin:8px 0}
+.episode-carousel .episode-play{font-size:12px!important;padding:7px 13px!important}
+.episode-rail-arrow{position:absolute;top:80px;z-index:5;display:grid;place-items:center;width:46px;height:46px;border-radius:50%;border:1px solid #ffffff55;background:#101b27d9;color:white;font-size:32px;cursor:pointer;backdrop-filter:blur(14px);box-shadow:0 10px 30px #0006;transition:background .25s,transform .25s,opacity .25s}
+.episode-rail-arrow:hover:not(:disabled){background:#ffffff38;transform:scale(1.06)}
+.episode-rail-arrow:disabled{opacity:0;pointer-events:none}
+.episode-rail-prev{left:6px}.episode-rail-next{right:6px}
+@media(max-width:650px){.episode-carousel .episode-item{flex-basis:min(82vw,310px)}.episode-rail-arrow{top:65px;width:38px;height:38px}}
+@media(prefers-reduced-motion:reduce){.episode-list.episode-carousel{scroll-behavior:auto}.episode-rail-arrow{transition:none}}
+
+/* V22: CinemaOS-style discoverable horizontal navigation for every homepage rail. */
+.v22-carousel { position: relative; isolation: isolate; }
+.v22-carousel .hrow, .v22-carousel .top10 { overscroll-behavior-x: contain; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
+.v22-carousel .rail-arrow { display:grid !important; place-items:center; position:absolute; top:45%; z-index:15; width:46px; height:46px; padding:0; font-size:32px; line-height:1; opacity:1; border:1px solid rgba(255,255,255,.32); color:white; background:rgba(20,27,39,.72); box-shadow:0 8px 28px rgba(0,0,0,.35); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); cursor:pointer; transition:background .22s, transform .22s, opacity .22s; }
+.v22-carousel .rail-prev { left:4px; }
+.v22-carousel .rail-next { right:4px; }
+.v22-carousel .rail-arrow:disabled { opacity:0; pointer-events:none; }
+.v22-carousel .rail-arrow:hover:not(:disabled), .v22-carousel .rail-arrow:focus-visible { background:rgba(75,91,111,.86); transform:translateY(-50%) scale(1.06); }
+.v22-carousel .rail-arrow:focus-visible { outline:2px solid white; outline-offset:3px; }
+.v22-carousel.v22-ranked .rail-arrow { top:43%; }
+.v22-carousel::after { pointer-events:none; }
+@media(max-width:650px) { .v22-carousel .rail-arrow { width:38px; height:38px; font-size:27px; } }
+@media(prefers-reduced-motion:reduce) { .v22-carousel .hrow, .v22-carousel .top10 {scroll-behavior:auto;} .v22-carousel .rail-arrow {transition:none;} }
+
+/* V23: genre carousel with CinemaOS-style hover arrows; no scrollbar */
+.genre-carousel-shell{position:relative;isolation:isolate}
+.genre-carousel-shell .genre-rail{scrollbar-width:none;-ms-overflow-style:none;overscroll-behavior-x:contain;scroll-behavior:smooth;padding-bottom:16px}
+.genre-carousel-shell .genre-rail::-webkit-scrollbar{display:none}
+.genre-nav{position:absolute;top:50%;z-index:8;transform:translateY(-50%);display:grid;place-items:center;width:48px;height:48px;border:1px solid rgba(255,255,255,.28);border-radius:50%;background:rgba(18,27,40,.7);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:white;font-size:34px;line-height:1;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .22s ease,background .22s ease,box-shadow .22s ease}
+.genre-nav-prev{left:7px}.genre-nav-next{right:7px}
+.genre-carousel-shell:hover .genre-nav:not(:disabled),.genre-carousel-shell:focus-within .genre-nav:not(:disabled){opacity:1;pointer-events:auto}
+.genre-nav:hover:not(:disabled){background:rgba(52,65,84,.94);box-shadow:0 10px 28px rgba(0,0,0,.38)}
+.genre-nav:disabled{opacity:0!important;pointer-events:none!important}
+@media(hover:none){.genre-nav:not(:disabled){opacity:.85;pointer-events:auto;width:40px;height:40px;font-size:29px}}
+@media(prefers-reduced-motion:reduce){.genre-carousel-shell .genre-rail{scroll-behavior:auto}.genre-nav{transition:none}}

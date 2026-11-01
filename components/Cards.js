@@ -68,7 +68,7 @@ export function Row({ eyebrow, title, href, items, type }) {
   if (!items?.length) return null;
   return (
     <Section eyebrow={eyebrow} title={title} href={href}>
-      <CarouselRail>
+      <CarouselRail label={title}>
         {items.map((m) => (
           <Card key={m.id} item={m} type={type} />
         ))}
@@ -92,7 +92,7 @@ export function Top10({ items, type, eyebrow, title, right, href, id }) {
   if (!list.length) return null;
   return (
     <Section eyebrow={eyebrow} title={title} right={right} href={href} id={id}>
-      <div className="top10 top10-premium" aria-label={`${title} rankings`}>
+      <CarouselRail ranked label={`${title} rankings`}>
         {list.map((m, idx) => {
           const mediaType = typeOf(m, type);
           const name = m.title || m.name || "Untitled";
@@ -114,7 +114,7 @@ export function Top10({ items, type, eyebrow, title, right, href, id }) {
             </Reveal>
           );
         })}
-      </div>
+      </CarouselRail>
     </Section>
   );
 }
