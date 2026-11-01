@@ -841,3 +841,40 @@ body { isolation:isolate; }
   .top10-premium .t10-premium .rank-art{padding-left:58px}
   .top10-premium .t10-premium .num{font-size:clamp(145px,34vw,195px);left:0;-webkit-text-stroke-width:2.5px}
 }
+
+
+/* V19 — actual ranking layout correction: numerals visibly occupy their own lane. */
+.top10.top10-premium { gap: clamp(20px, 2.8vw, 50px); padding: 34px 12px 38px; }
+.top10-premium .rank-reveal { flex: 0 0 clamp(350px, 29vw, 470px); }
+.top10-premium .t10-premium .rank-art {
+  padding-left: clamp(92px, 7vw, 122px);
+  position: relative;
+  isolation: isolate;
+}
+.top10-premium .t10-premium .num {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  bottom: auto;
+  transform: translateY(-53%);
+  z-index: 3;
+  width: clamp(104px, 8vw, 140px);
+  text-align: left;
+  font-size: clamp(168px, 13.2vw, 215px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -.095em;
+  color: rgba(255,255,255,.12);
+  -webkit-text-stroke: 2.5px rgba(245,249,255,.92);
+  paint-order: stroke fill;
+  text-shadow: 0 4px 14px rgba(0,0,0,.22);
+  filter: none;
+  pointer-events: none;
+}
+.top10-premium .t10-premium .pp { position:relative;z-index:2; }
+.top10-premium .t10-premium:hover .num { color:rgba(255,255,255,.18);-webkit-text-stroke-color:#fff; }
+@media(max-width:600px) {
+  .top10-premium .rank-reveal { flex-basis: min(94vw, 390px); }
+  .top10-premium .t10-premium .rank-art { padding-left: 83px; }
+  .top10-premium .t10-premium .num { font-size: 150px; width: 100px; -webkit-text-stroke-width: 2.5px; }
+}
