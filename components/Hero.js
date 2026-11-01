@@ -25,6 +25,15 @@ export default function Hero({ slides }) {
     return () => clearTimeout(t);
   }, [i, paused, n]);
 
+  useEffect(() => {
+    if (!n) return;
+    const slide = slides[i];
+    const palettes = ["54,123,165", "104,81,158", "39,137,132", "168,95,74", "84,119,85", "123,81,112"];
+    document.documentElement.style.setProperty("--hero-rgb", palettes[i % palettes.length]);
+    if (slide?.backdrop) document.documentElement.style.setProperty("--hero-art", `url("https://image.tmdb.org/t/p/w1280${slide.backdrop}")`);
+    window.dispatchEvent(new Event("ymc-hero-change"));
+  }, [i, slides, n]);
+
   if (!n) return null;
   const s = slides[i];
   const filled = Math.max(0, Math.min(5, Math.round(s.rating / 2)));

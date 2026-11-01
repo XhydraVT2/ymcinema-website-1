@@ -611,3 +611,25 @@ main.wrap:has(> .episodes-section)::before { display:none!important; }
 .d-hero::after { background:linear-gradient(90deg,rgba(5,11,17,.80),rgba(5,11,17,.32) 60%,rgba(5,11,17,.10)),linear-gradient(0deg,#0a1018 0%,transparent 40%)!important; }
 .sec,.episodes-section { position:relative; }
 @media(prefers-reduced-motion:reduce) { .ambient-field::before { transition:none; transform:none; } }
+
+/* Premium V6 / cinematic scene lighting v7: continuous artwork and responsive ambient glow */
+:root { --scene-rgb:54,123,165; --scene-x:50%; --scene-y:46%; --hero-rgb:54,123,165; }
+html, body { background:#090e17!important; }
+.ambient-field { inset:0!important; background:#090e17!important; z-index:-1!important; overflow:hidden; }
+.ambient-field::before { inset:-20%!important; background:radial-gradient(ellipse 76% 64% at var(--scene-x) var(--scene-y),rgba(var(--scene-rgb),.48),transparent 75%),radial-gradient(ellipse 65% 80% at 10% 75%,rgba(29,82,120,.24),transparent 75%),linear-gradient(145deg,#0a111b,#141c29 58%,#0a1019)!important;filter:blur(65px)!important;transform:none!important;transition:background 1s ease!important; }
+.ambient-field::after {background:linear-gradient(180deg,rgba(4,7,12,.14),transparent 50%,rgba(5,8,13,.28))!important;}
+/* Hero and content overlap; the current film artwork continues under the first rail. */
+.hero { border-radius:0!important; overflow:visible!important; isolation:isolate; margin-bottom:-120px; }
+.hero-bg { overflow:hidden; }
+.hero::after { inset:0!important;height:auto!important;background:linear-gradient(90deg,rgba(3,7,12,.70),transparent 85%),linear-gradient(180deg,rgba(4,8,14,.08) 30%,rgba(7,12,20,.38) 68%,rgba(9,14,23,.87) 92%,transparent 100%)!important; }
+.hero + main.wrap {position:relative;isolation:isolate;padding-top:145px!important;background:transparent!important;}
+.hero + main.wrap::before {content:"";position:absolute;pointer-events:none;z-index:-1;left:0;right:0;top:0;height:min(78vw,800px);background-image:linear-gradient(180deg,rgba(9,14,23,.70),rgba(9,14,23,.34) 18%,rgba(9,14,23,.84) 57%,transparent 100%),var(--hero-art);background-position:center top;background-size:cover;opacity:.46;mask-image:linear-gradient(180deg,#000 0%,#000 26%,transparent 100%);-webkit-mask-image:linear-gradient(180deg,#000 0%,#000 26%,transparent 100%);transition:background-image .8s ease;}
+/* Section color is produced by the backdrop, not by opaque rectangles. */
+.sec,.episodes-section,.prov-panel {background:transparent!important;}
+.premium-card {position:relative;isolation:isolate;transition:transform .38s cubic-bezier(.2,.8,.2,1),filter .38s ease!important;}
+.premium-card:hover {transform:translateY(-8px) scale(1.015);filter:drop-shadow(0 15px 28px rgba(var(--scene-rgb),.25));}
+.premium-card .thumb {border:1px solid rgba(255,255,255,.18);box-shadow:0 14px 35px rgba(0,0,0,.22);}
+.premium-card:hover .thumb {border-color:rgba(255,255,255,.44);box-shadow:0 16px 42px rgba(var(--scene-rgb),.32),inset 0 1px rgba(255,255,255,.3);}
+.nav.glass,.d-trailer-panel,.d-infobar-shell .infobar {background:rgba(22,30,40,.34)!important;backdrop-filter:blur(28px) saturate(140%)!important;-webkit-backdrop-filter:blur(28px) saturate(140%)!important;}
+@media(max-width:700px){.hero{margin-bottom:-65px}.hero + main.wrap{padding-top:92px!important}.hero + main.wrap::before{height:480px}.premium-card:hover{transform:none}}
+@media(prefers-reduced-motion:reduce){.premium-card,.ambient-field::before{transition:none!important}}
