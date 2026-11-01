@@ -15,11 +15,7 @@ export default function RootLayout({ children }) {
       <body className={font.className}>
         <Navbar />
         {children}
-        <footer className="glass">
-          YMCINEMA is a movie &amp; TV discovery site.
-          <br />
-          This product uses the TMDB API but is not endorsed or certified by TMDB.
-        </footer>
+        <footer className="ymc-footer"><span>YMCINEMA</span></footer>
       </body>
     </html>
   );
