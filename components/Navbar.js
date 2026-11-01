@@ -9,7 +9,7 @@ const LINKS = [
   { href: "/browse/hollywood-trending", label: "Hollywood", on: (p) => p.startsWith("/browse/hollywood") },
   { href: "/browse/hindi-series", label: "Series", on: (p) => p.startsWith("/browse/hindi-series") },
   { href: "/browse/tv-trending", label: "TV Shows", on: (p) => p.startsWith("/browse/tv") || p.startsWith("/tv/") },
-  { href: "/#providers", label: "Streaming", on: (p) => p.startsWith("/provider") },
+  
 ];
 
 export default function Navbar() {

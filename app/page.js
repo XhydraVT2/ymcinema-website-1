@@ -1,8 +1,8 @@
 import { getCategory, getHeroSlides } from "../lib/tmdb";
-import { getProviders, getProviderTitles } from "../lib/providers";
+
 import Hero from "../components/Hero";
 import { Row, Top10 } from "../components/Cards";
-import { Providers } from "../components/Providers";
+
 import Link from "next/link";
 
 const BEFORE = [
@@ -33,12 +33,11 @@ export default async function Home({ searchParams }) {
     return s ? `/?${s}` : "/";
   };
 
-  let slides, providers, top, rows;
+  let slides, top, rows;
   try {
     const keys = [...BEFORE, ...AFTER].map((r) => r[0]);
-    [slides, providers, top, ...rows] = await Promise.all([
+    [slides, top, ...rows] = await Promise.all([
       getHeroSlides(),
-      getProviders(ptype),
       getCategory(ttype === "tv" ? "hindi-series-top" : "bollywood-top-rated"),
       ...keys.map((k) => getCategory(k)),
     ]);
@@ -55,9 +54,6 @@ export default async function Home({ searchParams }) {
   }
 
   const byKey = Object.fromEntries(rows.map((r) => [r.key, r]));
-  const selected = providers.find((p) => String(p.provider_id) === String(sp.p)) || providers[0];
-  const provData = selected ? await getProviderTitles(selected.provider_id, ptype).catch(() => null) : null;
-
   const wide = ([key, eyebrow, title]) => (
     <Row key={key} eyebrow={eyebrow} title={title} href={`/browse/${key}`} items={byKey[key]?.results} type={byKey[key]?.type} />
   );
@@ -67,14 +63,6 @@ export default async function Home({ searchParams }) {
       <Hero slides={slides} />
       <main className="wrap">
         {BEFORE.map(wide)}
-
-        <Providers
-          providers={providers}
-          selected={selected}
-          ptype={ptype}
-          titles={provData?.results?.slice(0, 18)}
-          mkHref={mkHref}
-        />
 
         <Top10
           id="top10"

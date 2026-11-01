@@ -29,7 +29,7 @@ export default function MoviePlayer({ movieId, type = "movie" }) {
         <div><small>YMCINEMA</small><h2>Watch {type === "tv" ? "episode" : "movie"}</h2></div>
         <label htmlFor="movie-source">Server</label>
         <select id="movie-source" value={selected} onChange={(e) => { setSelected(Number(e.target.value)); stop(); }}>
-          {SOURCES.map((_, index) => <option key={index} value={index}>Server {index + 1}</option>)}
+          {SOURCES.map((_, index) => <option key={index} value={index}>Watch {index + 1}</option>)}
         </select>
       </div>
       {type === "tv" && <div className="movie-player-episodes">
@@ -38,7 +38,7 @@ export default function MoviePlayer({ movieId, type = "movie" }) {
       </div>}
       <div className="movie-player-frame">
         {playing ? (
-          <iframe key={url} src={url} title={`Server ${selected + 1} player`} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowFullScreen referrerPolicy="no-referrer" loading="lazy" {...(source.sandbox ? { sandbox: "allow-scripts allow-same-origin allow-presentation" } : {})} />
+          <iframe key={url} src={url} title={`Watch ${selected + 1} player`} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowFullScreen referrerPolicy="no-referrer" loading="lazy" {...(source.sandbox ? { sandbox: "allow-scripts allow-same-origin allow-presentation" } : {})} />
         ) : (
           <div className="movie-player-idle"><button className="btn primary" type="button" onClick={() => setPlaying(true)}>▶ Play now</button></div>
         )}

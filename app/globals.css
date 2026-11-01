@@ -228,3 +228,27 @@ footer { margin: 30px auto 40px; width: min(1120px, calc(100% - 24px)); padding:
 .movie-player-episodes label{display:flex;align-items:center;gap:8px;color:#bbb}
 .movie-player-episodes input{width:72px;background:#19161f;color:white;border:1px solid #504954;border-radius:8px;padding:8px}
 .movie-player-stop{margin-top:12px;background:#26202e;color:white;border:1px solid #514858;border-radius:8px;padding:9px 14px;cursor:pointer}
+
+/* Cinema-style dedicated watch screen */
+.watch-screen{min-height:calc(100vh - 70px);background-color:#0b0810;background-position:center top;background-size:cover;padding:32px max(28px,4vw) 80px;color:#fff}
+.watch-back{display:inline-block;color:#ddd;text-decoration:none;background:#ffffff16;border:1px solid #ffffff30;border-radius:30px;padding:10px 18px}
+.watch-content{min-height:65vh;display:grid;grid-template-columns:minmax(0,1fr) 285px;gap:45px;align-items:center}
+.watch-main{max-width:900px;min-width:0}.watch-brand{font-size:12px;font-weight:800;letter-spacing:.16em}.watch-brand span{color:#aaa}.watch-main h1{font-size:clamp(40px,5.5vw,88px);letter-spacing:.08em;margin:15px 0 24px;text-transform:uppercase;text-shadow:0 5px 20px #000}
+.watch-big-play{border:0;border-radius:35px;padding:16px 30px;background:#fff;color:#101015;font-size:17px;font-weight:800;cursor:pointer;box-shadow:0 8px 35px #0008}
+.watch-sources{background:#ffffff16;border:1px solid #ffffff30;border-radius:22px;padding:14px;backdrop-filter:blur(25px);box-shadow:0 12px 45px #0005}
+.watch-sources-title{font-size:11px;letter-spacing:.18em;font-weight:800;color:#ccc;display:flex;justify-content:space-between;padding:7px 5px 12px}.watch-sources-title span{font-size:10px;letter-spacing:0;color:#ddd}
+.watch-sources button{display:flex;align-items:center;gap:12px;width:100%;background:transparent;color:#eee;border:1px solid transparent;border-radius:12px;padding:14px 12px;text-align:left;font-weight:700;cursor:pointer}.watch-sources button.active{background:#ffffff20;border-color:#ffffff38}.watch-sources button:hover{background:#ffffff20}.watch-sources button small{margin-left:auto;color:#ccc;font-size:9px}.watch-source-dot{width:8px;height:8px;border-radius:50%;background:#aaa}.watch-sources button.active .watch-source-dot{background:#fff}
+.watch-player-box{position:relative;aspect-ratio:16/9;background:#050505;border-radius:18px;overflow:hidden;border:1px solid #ffffff30}.watch-player-box iframe{width:100%;height:100%;border:0;position:absolute;inset:0}.watch-loading{position:absolute;inset:0;display:grid;place-items:center;background:#0a0710;color:#fff}.watch-close{margin-top:14px;background:#ffffff25;border:1px solid #ffffff40;border-radius:9px;padding:9px 15px;color:white;cursor:pointer}.watch-episode-controls{display:flex;gap:18px;margin-bottom:22px}.watch-episode-controls input{width:65px;margin-left:8px;padding:8px;border-radius:8px;background:#ffffff20;border:1px solid #ffffff40;color:#fff}
+@media(max-width:800px){.watch-content{grid-template-columns:1fr;gap:20px;padding-top:45px}.watch-sources{max-width:100%}.watch-screen{padding:20px}.watch-main h1{font-size:42px}}
+
+/* YMCINEMA cinematic visual refresh */
+:root{--cinema-accent:#e13d54}
+body{background:#08080c;color:#f8f7fa}
+.nav.glass{position:sticky;top:14px;z-index:100;width:min(1100px,calc(100% - 36px));margin:14px auto -76px;border:1px solid rgba(255,255,255,.15);border-radius:999px;background:rgba(24,21,29,.7);backdrop-filter:blur(22px);box-shadow:0 14px 45px rgba(0,0,0,.4)}
+.nav-links a{border-radius:30px;transition:background .2s,color .2s}.nav-links a:hover,.nav-links a.on{background:rgba(255,255,255,.13);color:#fff}
+.hero{border-radius:0 0 28px 28px;overflow:hidden}.wrap{padding-top:32px}.row-section{scroll-margin-top:110px}
+.wcard,.poster,.thumb{transition:transform .25s ease,box-shadow .25s ease}.wcard:hover{transform:translateY(-5px);filter:brightness(1.08)}
+.watch-screen{min-height:100vh;padding-top:120px;background-blend-mode:multiply;background-color:#141018}
+.watch-content{grid-template-columns:minmax(0,1fr) 290px}.watch-sources{background:rgba(35,30,40,.55);border-radius:24px}
+.watch-main h1{letter-spacing:.035em}.watch-big-play{transition:transform .2s,box-shadow .2s}.watch-big-play:hover{transform:scale(1.04);box-shadow:0 14px 42px #000b}
+@media(max-width:800px){.nav.glass{top:8px;width:calc(100% - 16px);margin:8px auto -68px}.watch-screen{padding-top:100px}.watch-content{grid-template-columns:1fr}}
