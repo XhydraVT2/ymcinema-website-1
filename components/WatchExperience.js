@@ -20,14 +20,14 @@ export default function WatchExperience({movieId,type,title,seasons}) {
   ];
   const source=sources[selected];
   const url=type==='tv'?source.tv(movieId,season,episode):source.movie(movieId);
-  function choose(i){setSelected(i);setStarted(true);setLoading(true);}
+  function choose(i){setSelected(i);if(started){setLoading(true);}}
   return <div className="watch-content">
     <div className="watch-main">
       <div className="watch-brand">YMCINEMA <span>· {type==='tv'?'SERIES':'FILM'}</span></div>
       <h1>{title}</h1>
       {type==='tv' && <div className="watch-episode-controls"><label>Season <input type="number" min="1" max={seasons} value={season} onChange={e=>{setSeason(Math.max(1,Number(e.target.value)||1));setStarted(false);}} /></label><label>Episode <input type="number" min="1" value={episode} onChange={e=>{setEpisode(Math.max(1,Number(e.target.value)||1));setStarted(false);}} /></label></div>}
-      {!started ? <button className="watch-big-play" onClick={()=>{setStarted(true);setLoading(true);}}>▶ Play {names[selected]}</button> : <><div className="watch-player-box">{loading && <div className="watch-loading">Connecting to {names[selected]}…</div>}<iframe key={url} src={url} title={names[selected]} allowFullScreen allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerPolicy="no-referrer" onLoad={()=>setLoading(false)} {...(source.sandbox?{sandbox:'allow-scripts allow-same-origin allow-presentation'}:{})}/></div><button className="watch-close" onClick={()=>setStarted(false)}>■ Stop playback</button></>}
+      {!started ? <button className="watch-big-play" aria-label={`Play ${title} using ${names[selected]}`} onClick={()=>{setStarted(true);setLoading(true);}}>▶ Play {names[selected]}</button> : <><div className="watch-player-box" aria-label={`${title} player`}>{loading && <div className="watch-loading">Connecting to {names[selected]}…</div>}<iframe key={url} src={url} title={names[selected]} allowFullScreen allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerPolicy="no-referrer" onLoad={()=>setLoading(false)} {...(source.sandbox?{sandbox:'allow-scripts allow-same-origin allow-presentation'}:{})}/></div><div className="watch-controls"><button className="watch-close" onClick={()=>{setStarted(false);setLoading(false);}}>■ Stop playback</button><span>Having trouble? Try another Watch source.</span></div></>}
     </div>
-    <aside className="watch-sources"><div className="watch-sources-title">SOURCES <span>{started?(loading?'● Connecting':'● Selected'):'● Ready'}</span></div>{names.map((name,i)=><button key={name} className={selected===i?'active':''} onClick={()=>choose(i)}><span className="watch-source-dot"/>{name}<small>{selected===i&&loading?'CONNECTING':'READY'}</small></button>)}</aside>
+    <aside className="watch-sources"><div className="watch-sources-title">SOURCES <span>{started?(loading?'● Connecting':'● Selected'):'● Choose source'}</span></div>{names.map((name,i)=><button key={name} className={selected===i?'active':''} aria-pressed={selected===i} onClick={()=>choose(i)}><span className="watch-source-dot"/>{name}<small>{selected===i&&loading?'CONNECTING':'READY'}</small></button>)}</aside>
   </div>;
 }

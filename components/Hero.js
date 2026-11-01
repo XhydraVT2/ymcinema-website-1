@@ -70,7 +70,7 @@ export default function Hero({ slides }) {
           <p className="hero-desc">{s.overview}</p>
 
           <div className="hero-actions">
-            <Link className="btn primary" href={`/${s.type}/${s.id}#watch`}>
+            <Link className="btn primary" href={`/watch/${s.type}/${s.id}`}>
               ▶ Play
             </Link>
             <Link className="btn glass" href={`/${s.type}/${s.id}`}>
