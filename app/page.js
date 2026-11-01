@@ -1,6 +1,8 @@
 import { getCategory, getHeroSlides } from "../lib/tmdb";
 
 import Hero from "../components/Hero";
+import { Providers } from "../components/Providers";
+import { getProviders, getProviderTitles } from "../lib/providers";
 import { Row, Top10 } from "../components/Cards";
 
 import Link from "next/link";
@@ -23,6 +25,7 @@ export default async function Home({ searchParams }) {
   const sp = (await searchParams) || {};
   const ptype = sp.ptype === "tv" ? "tv" : "movie";
   const ttype = sp.top === "tv" ? "tv" : "movie";
+  const providerType = sp.ptype === "tv" ? "tv" : "movie";
 
   // Build a home URL keeping the current choices, overriding some
   const mkHref = (over = {}) => {
@@ -53,6 +56,18 @@ export default async function Home({ searchParams }) {
     );
   }
 
+  let providers = [], selectedProvider = null, providerTitles = [];
+  try {
+    providers = await getProviders(providerType, 18);
+    selectedProvider = providers.find(p => String(p.provider_id) === String(sp.p)) || providers[0] || null;
+    if (selectedProvider) {
+      const results = await getProviderTitles(selectedProvider.provider_id, providerType);
+      providerTitles = results.results || [];
+    }
+  } catch (e) {
+    console.error("Provider listings unavailable:", e);
+  }
+
   const byKey = Object.fromEntries(rows.map((r) => [r.key, r]));
   const wide = ([key, eyebrow, title]) => (
     <Row key={key} eyebrow={eyebrow} title={title} href={`/browse/${key}`} items={byKey[key]?.results} type={byKey[key]?.type} />
@@ -63,6 +78,7 @@ export default async function Home({ searchParams }) {
       <Hero slides={slides} />
       <main className="wrap">
         {BEFORE.map(wide)}
+        <Providers providers={providers} selected={selectedProvider} ptype={providerType} titles={providerTitles} mkHref={mkHref} />
 
         <Top10
           id="top10"

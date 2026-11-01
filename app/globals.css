@@ -335,3 +335,48 @@ button{font:inherit}
   .nav.glass { width: calc(100% - 16px); margin: 8px auto -75px; }
   .nav-links a { padding: 8px 10px; }
 }
+
+/* Homepage Indian streaming discovery */
+#providers { scroll-margin-top: 115px; }
+#providers .prov-panel { margin-top: 18px; }
+#providers .tiles { display:flex; gap:16px; overflow-x:auto; padding: 12px 2px 20px; scrollbar-width:thin; }
+#providers .tile { flex:0 0 86px; text-align:center; text-decoration:none; font-size:12px; color:var(--muted); transition:transform .22s ease, color .22s ease; }
+#providers .tile:hover, #providers .tile.sel { color:white; transform:translateY(-4px); }
+#providers .lb { position:relative; width:76px; height:76px; margin:0 auto 9px; border-radius:18px; background:#15151b; overflow:hidden; border:1px solid #ffffff25; }
+#providers .lb img { object-fit:contain; padding:8px; }
+#providers .tile.sel .lb { border-color:#ffffff90; box-shadow:0 0 22px #ffffff16; }
+#providers .pbanner { display:flex; align-items:center; gap:16px; padding:16px; border-radius:20px; margin:6px 0 18px; }
+#providers .pbanner .lg { width:54px; height:54px; position:relative; flex-shrink:0; border-radius:12px; overflow:hidden; }
+#providers .pbanner .lg img { object-fit:contain; }
+#providers .pbanner .tx { display:flex; flex-direction:column; gap:4px; flex:1; }
+#providers .pbanner .tx small { color:var(--muted); text-transform:uppercase; font-size:10px; letter-spacing:.12em; }
+#providers .hrow { display:flex; overflow-x:auto; gap:14px; padding-bottom:16px; }
+#providers .hrow > * { flex:0 0 205px; }
+@media(max-width:650px){#providers .hrow > * {flex-basis:155px;}#providers .pbanner{flex-wrap:wrap;}}
+
+/* Cinematic experience: hero, animated previews and navigable rails */
+.hero { background:#08080c; }
+.hero-bg { transition:opacity 1.25s cubic-bezier(.16,1,.3,1)!important; }
+.hero-bg::after { content:""; position:absolute;inset:0;background:radial-gradient(ellipse at 75% 30%,transparent 10%,rgba(5,5,9,.23) 75%);pointer-events:none; }
+.hero-info { animation:ymcContentReveal .9s cubic-bezier(.16,1,.3,1) both; }
+@keyframes ymcContentReveal { from {opacity:0;transform:translate3d(0,25px,0);filter:blur(5px)} to {opacity:1;transform:translate3d(0,0,0);filter:blur(0)} }
+.hero-title,.hero-logo { filter:drop-shadow(0 10px 22px rgba(0,0,0,.65)); }
+.hero-counter {font-size:12px;font-weight:800;letter-spacing:.14em;color:#fff;white-space:nowrap}
+.hero-counter span {color:rgba(255,255,255,.45)}
+.upnext { backdrop-filter:blur(10px); }
+.upnext .un {position:relative;transition:transform .35s cubic-bezier(.2,.8,.2,1),filter .35s;}
+.upnext .un:hover,.upnext .un:focus-visible {transform:translateY(-8px);filter:brightness(1.18)}
+.upnext-play {position:absolute;top:32%;left:50%;transform:translate(-50%,-50%) scale(.75);display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.88);color:#15121b;opacity:0;transition:opacity .25s,transform .25s;box-shadow:0 8px 28px #0009}
+.upnext .un:hover .upnext-play,.upnext .un:focus-visible .upnext-play {opacity:1;transform:translate(-50%,-50%) scale(1)}
+.cinema-rail {position:relative;isolation:isolate}
+.cinema-rail::after {content:"";position:absolute;right:0;top:0;bottom:0;width:48px;pointer-events:none;background:linear-gradient(90deg,transparent,var(--bg));opacity:.65}
+.rail-arrow {position:absolute;z-index:5;top:40%;transform:translateY(-50%);height:46px;width:46px;border-radius:50%;border:1px solid #ffffff45;background:#17151dcc;color:white;font-size:34px;line-height:1;cursor:pointer;backdrop-filter:blur(15px);transition:background .2s,transform .25s,opacity .2s;opacity:.1}
+.cinema-rail:hover .rail-arrow,.rail-arrow:focus-visible {opacity:1}
+.rail-arrow:hover {background:#ffffff35;transform:translateY(-50%) scale(1.1)}
+.rail-prev {left:6px}.rail-next {right:6px}
+.wcard .thumb {overflow:hidden;border-radius:15px;box-shadow:0 8px 24px #0004}
+.wcard .thumb::before {content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,#0006);z-index:1;pointer-events:none}
+.wcard:hover .thumb {box-shadow:0 18px 42px #0008,0 0 0 1px #ffffff30}
+.sec {scroll-margin-top:120px}
+@media(max-width:800px){.rail-arrow{display:none}.cinema-rail::after{width:18px}.hero-info{animation-duration:.55s}}
+@media(prefers-reduced-motion:reduce){.hero-info{animation:none!important}.upnext .un,.rail-arrow{transition:none!important}}

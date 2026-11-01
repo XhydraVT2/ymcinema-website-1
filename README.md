@@ -16,3 +16,7 @@ Bollywood-first movie & TV discovery site (Next.js + TMDB). Hollywood and TV sec
 - Bollywood = Hindi-language films (`with_original_language=hi`, region IN).
 - Streaming providers use TMDB watch-provider data for India, ordered Bollywood-first (see `lib/providers.js`).
 - This product uses the TMDB API but is not endorsed or certified by TMDB.
+
+
+## Indian streaming provider discovery
+The homepage now includes an India-first provider selector, driven by TMDB/JustWatch availability. Select a provider to browse Hindi movie or TV listings; cards open YMCINEMA detail pages. Provider logos are used for identification only; no provider-site redirect is added. TMDB_TOKEN must be set in the deployment environment. Listings are informational and do not establish streaming rights.

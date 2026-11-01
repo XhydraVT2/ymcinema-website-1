@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import CarouselRail from "./CarouselRail";
 import { IMG } from "../lib/tmdb";
 
 function typeOf(item, type) {
@@ -60,11 +61,11 @@ export function Row({ eyebrow, title, href, items, type }) {
   if (!items?.length) return null;
   return (
     <Section eyebrow={eyebrow} title={title} href={href}>
-      <div className="hrow">
+      <CarouselRail>
         {items.map((m) => (
           <Card key={m.id} item={m} type={type} />
         ))}
-      </div>
+      </CarouselRail>
     </Section>
   );
 }

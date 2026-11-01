@@ -78,7 +78,7 @@ export default function Hero({ slides }) {
             </Link>
           </div>
 
-          <div className="hero-nav">
+          <div className="hero-nav"><span className="hero-counter">{String(i + 1).padStart(2, "0")} <span>/ {String(n).padStart(2, "0")}</span></span>
             <div className="segs">
               {slides.map((sl, k) => (
                 <button
@@ -104,11 +104,11 @@ export default function Hero({ slides }) {
           <div className="lbl">UP NEXT</div>
           <div className="upnext-row">
             {upNext.map((idx) => (
-              <button key={slides[idx].id} className="un" onClick={() => go(idx)}>
+              <button key={slides[idx].id} className="un" onClick={() => go(idx)} aria-label={`Preview ${slides[idx].title}`}>
                 <div className="th">
                   <Image src={`${IMG}/w500${slides[idx].backdrop}`} alt={slides[idx].title} fill sizes="200px" />
                 </div>
-                <div className="nm">{slides[idx].title}</div>
+                <div className="nm">{slides[idx].title}</div><span className="upnext-play" aria-hidden="true">▶</span>
               </button>
             ))}
           </div>
