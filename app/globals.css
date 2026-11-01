@@ -817,3 +817,27 @@ body { isolation:isolate; }
 .top10-premium .t10-premium .pp .rtg{display:none}
 .top10-premium .t10-premium .wm{justify-content:space-between}
 @media(max-width:600px){.top10-premium .rank-reveal{flex-basis:78vw}.top10-premium .t10-premium .num{font-size:145px;left:-20px}}
+
+
+/* V18 — readable CinemaOS-style ranking numerals, still behind the backdrops */
+.top10.top10-premium{gap:clamp(18px,2.5vw,46px);padding:30px 12px 38px}
+.top10-premium .rank-reveal{flex:0 0 clamp(300px,26vw,415px)}
+.top10-premium .t10-premium .rank-art{padding-left:clamp(57px,4.7vw,82px);isolation:isolate}
+.top10-premium .t10-premium .num{
+  left:0;bottom:0;z-index:1;
+  font-size:clamp(160px,16vw,245px);line-height:.83;letter-spacing:-.09em;
+  color:rgba(238,246,255,.10);
+  -webkit-text-stroke:2.5px rgba(239,246,255,.82);
+  text-shadow:0 1px 20px rgba(255,255,255,.12);
+  filter:drop-shadow(0 2px 3px rgba(0,0,0,.3));
+}
+.top10-premium .t10-premium:hover .num{
+  color:rgba(255,255,255,.15);
+  -webkit-text-stroke-color:rgba(255,255,255,.98);
+}
+.top10-premium .t10-premium .pp{z-index:2}
+@media(max-width:600px){
+  .top10-premium .rank-reveal{flex-basis:87vw}
+  .top10-premium .t10-premium .rank-art{padding-left:58px}
+  .top10-premium .t10-premium .num{font-size:clamp(145px,34vw,195px);left:0;-webkit-text-stroke-width:2.5px}
+}
