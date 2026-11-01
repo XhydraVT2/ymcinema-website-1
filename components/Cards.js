@@ -22,6 +22,7 @@ export function Card({ item, type }) {
       <div className="thumb">
         <span className="glass-sheen" aria-hidden="true" />
         <span className="glass-play" aria-hidden="true">▶</span>
+        <span className="cinema-card-info" aria-hidden="true"><span className="cinema-card-kicker">{t === "tv" ? "TV SERIES" : "FEATURE FILM"} · {date.slice(0,4) || "COMING SOON"}</span><strong>{title}</strong><span className="cinema-card-watch">View details <span>↗</span></span></span>
         {src ? (
           <Image src={src} alt={title} fill sizes="(max-width: 700px) 80vw, 370px" />
         ) : (

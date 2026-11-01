@@ -1,13 +1,5 @@
-# YMCINEMA V5 — optical glass polish
+# YMCINEMA Premium V6
 
-Based on the user's Glass Hover V4 project. Adds pointer-reactive spotlight and subtle 3D tilt to movie cards, layered translucent navigation, softer hero backdrop movement, and frosted Up Next panel. Keeps existing routes, provider discovery and Watch 1–7.
+Built from Glass V5. Fixes undersized carousel cards by sizing the actual `.spotlight-shell` rail children. Adds larger cinematic landscape cards, glass detail overlay on hover, refined layout spacing, responsive sizing and motion preferences. Retains the existing provider listings, movie details and watch routes.
 
-## Install / test
-
-```bash
-npm install
-npm run build
-npm run dev
-```
-
-No external animation packages are required. Pointer effects respect reduced-motion preferences. Third-party embeds have not been independently verified.
+To run: `npm install`, set `TMDB_TOKEN`, then `npm run build` or `npm run dev`. External streaming players and TMDB access were not verified.
