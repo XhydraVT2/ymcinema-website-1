@@ -785,3 +785,35 @@ body { isolation:isolate; }
 #providers .v14-discovery .hrow>*{flex-basis:clamp(215px,19vw,330px)}
 @media(max-width:600px){#providers .v14-discovery{padding:18px 12px;border-radius:22px}.v14-provider{flex-basis:72px}.v14-provider-logo{width:65px;height:65px}.v14-rail{gap:10px}#providers .v14-discovery .hrow>*{flex-basis:220px}}
 @media(prefers-reduced-motion:reduce){.v14-rail{scroll-behavior:auto}.v14-provider,.v14-provider-logo,.v14-rail-controls button{transition:none}}
+
+/* V16 — quiet, slow-moving cinematic lighting. The JS interpolates the RGB values
+   continuously; no instantaneous palette swaps or bright hover flashes. */
+.ambient-field::before {
+  background:
+    radial-gradient(ellipse 65% 70% at 52% 43%, color-mix(in srgb, var(--scene-glow) 24%, transparent), transparent 83%),
+    radial-gradient(ellipse 55% 65% at 14% 83%, rgba(48, 88, 105, .09), transparent 86%) !important;
+  filter: blur(95px) !important;
+  transition: none !important;
+}
+.premium-card:hover {
+  filter: drop-shadow(0 12px 22px rgba(15, 22, 35, .22)) !important;
+}
+.premium-card:hover .thumb {
+  box-shadow: 0 17px 38px rgba(0, 0, 0, .29), 0 0 23px color-mix(in srgb, var(--scene-glow) 13%, transparent) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ambient-field::before { transition: none !important; }
+}
+
+/* V17 — CinemaOS-inspired widescreen ranked film cards (overrides V10 portrait layout) */
+.top10.top10-premium{gap:clamp(24px,4.5vw,78px);padding:26px 14px 34px;align-items:stretch}
+.top10-premium .rank-reveal{flex:0 0 clamp(265px,23vw,370px);min-width:0}
+.top10-premium .t10-premium{width:100%;min-width:0}
+.top10-premium .t10-premium .rank-art{padding-left:clamp(14px,1.2vw,22px)}
+.top10-premium .t10-premium .pp{aspect-ratio:16/9;border-radius:13px;width:100%;box-shadow:0 12px 25px rgba(0,0,0,.27)}
+.top10-premium .t10-premium .pp img{object-fit:cover}
+.top10-premium .t10-premium .num{font-size:clamp(140px,15vw,230px);left:clamp(-33px,-2.4vw,-20px);bottom:-2px;line-height:.82;-webkit-text-stroke:2px rgba(230,237,255,.38)}
+.top10-premium .t10-premium .rank-title{margin-top:9px}
+.top10-premium .t10-premium .pp .rtg{display:none}
+.top10-premium .t10-premium .wm{justify-content:space-between}
+@media(max-width:600px){.top10-premium .rank-reveal{flex-basis:78vw}.top10-premium .t10-premium .num{font-size:145px;left:-20px}}

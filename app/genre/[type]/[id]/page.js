@@ -6,6 +6,6 @@ export default async function GenrePage({params}){
  const {type,id}=await params;
  if(!["movie","tv"].includes(type)||!/^\d+$/.test(id)) return <main className="wrap genre-page"><h1>Genre not found</h1></main>;
  let results=[];let error=false;
- try{const data=await tmdb(`/discover/${type}`,{with_genres:id,sort_by:"popularity.desc",page:"1"});results=data.results||[];}catch{error=true;}
- return <main className="wrap genre-page"><Link className="pill-link glass" href="/#genres">← Back to genres</Link><p className="eyebrow">Explore {type==="tv"?"TV shows":"movies"}</p><h1>{names[id]||"Genre"}</h1>{error?<p>Titles are unavailable right now. Please try again later.</p>:results.length?<Grid items={results} type={type}/>:<p>No titles found for this genre.</p>}</main>
+ try{const data=await tmdb(`/discover/${type}`,{with_genres:id,with_original_language:"hi",...(type==="movie"?{region:"IN"}:{}),sort_by:"popularity.desc",page:"1"});results=data.results||[];}catch{error=true;}
+ return <main className="wrap genre-page"><Link className="pill-link glass" href="/#genres">← Back to genres</Link><p className="eyebrow">Explore {type==="tv"?"Hindi TV shows":"Bollywood movies"}</p><h1>{names[id]||"Genre"}</h1>{error?<p>Titles are unavailable right now. Please try again later.</p>:results.length?<Grid items={results} type={type}/>:<p>No titles found for this genre.</p>}</main>
 }

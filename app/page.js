@@ -102,7 +102,7 @@ export default async function Home({ searchParams }) {
         />
 
         {AFTER.map(wide)}
-        <Genres movies={[...(byKey["bollywood-trending"]?.results || []), ...(byKey["hollywood-trending"]?.results || [])]} shows={[...(byKey["hindi-series"]?.results || []), ...(byKey["tv-trending"]?.results || [])]} />
+        <Genres movies={(byKey["bollywood-trending"]?.results || []).filter(m => m.original_language === "hi")} shows={(byKey["hindi-series"]?.results || []).filter(m => m.original_language === "hi")} />
         <PlatformCarousel />
       </main>
     </>

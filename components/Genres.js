@@ -22,7 +22,7 @@ const GENRES = [
 ];
 export default function Genres({movies=[],shows=[]}) {
   const [type,setType] = useState("movie");
-  const items = type === "tv" ? shows : movies;
+  const items = (type === "tv" ? shows : movies).filter(item => item.original_language === "hi");
   return <section className="sec genre-section" id="genres">
     <Reveal><div className="sec-head"><div><p className="eyebrow">Find your mood</p><h2>Browse by genre</h2></div><div className="head-right"><div className="toggle glass" aria-label="Choose media type"><button type="button" className={type === "movie" ? "on" : ""} onClick={()=>setType("movie")}>▦ Movies</button><button type="button" className={type === "tv" ? "on" : ""} onClick={()=>setType("tv")}>▢ TV Shows</button></div><Link className="pill-link glass" href={`/genre/${type}/28`}>Browse Action ↗</Link></div></div></Reveal>
     <div className="genre-rail">{GENRES.map((genre,i)=>{

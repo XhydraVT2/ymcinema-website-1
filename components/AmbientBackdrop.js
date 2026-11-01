@@ -1,12 +1,13 @@
 "use client";
 import { useEffect } from "react";
 
-// A restrained ambient palette. Changes follow the section in view and the
-// card under the pointer, rather than switching whole-page background images.
+// Deliberately muted: the lighting should complement artwork, not compete with it.
 const PALETTES = [
-  [62, 116, 145], [102, 81, 138], [49, 125, 117],
-  [143, 91, 71], [86, 118, 90], [122, 83, 112], [62, 100, 153],
+  [49, 78, 99], [74, 67, 91], [49, 87, 84],
+  [94, 75, 65], [68, 87, 76], [85, 69, 84], [55, 77, 104],
 ];
+const BASE = [49, 78, 99];
+const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
 function paletteFor(text) {
   let hash = 0;
   for (const c of text || "") hash = (hash * 33 + c.charCodeAt(0)) >>> 0;
@@ -15,60 +16,66 @@ function paletteFor(text) {
 export default function AmbientBackdrop() {
   useEffect(() => {
     const root = document.documentElement;
-    let raf = 0;
-    let hovered = null;
-    let lastColor = "";
-    const update = () => {
-      raf = 0;
-      const scroll = window.scrollY;
-      const viewport = window.innerHeight;
-      const sections = [...document.querySelectorAll(".sec, .episodes-section, .prov-panel, .d-hero")];
-      const focusY = viewport * 0.56;
-      let nearest = null;
-      let distance = Infinity;
-      for (const el of sections) {
-        const r = el.getBoundingClientRect();
-        const d = Math.abs(r.top + r.height * 0.5 - focusY);
-        if (d < distance) { nearest = el; distance = d; }
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let current = [...BASE], target = [...BASE];
+    let pointer = null, frame = 0, last = 0, active = true;
+    let lastSection = null;
+    const sections = () => [...document.querySelectorAll(".sec, .episodes-section, .prov-panel, .d-hero")];
+    const selectTarget = () => {
+      const viewport = window.innerHeight || 800;
+      const focus = viewport * .54;
+      let nearest = null, distance = Infinity;
+      for (const section of sections()) {
+        const rect = section.getBoundingClientRect();
+        const delta = Math.abs(clamp(focus, rect.top, rect.bottom) - focus);
+        const center = Math.abs((rect.top + rect.bottom) / 2 - focus);
+        const score = delta * 2 + center * .12;
+        if (score < distance) { distance = score; nearest = section; }
       }
-      const label = hovered?.querySelector(".wt, .cinema-card-info strong")?.textContent
-        || nearest?.querySelector("h2")?.textContent || "YMCINEMA";
-      const hero = getComputedStyle(root).getPropertyValue("--hero-rgb").trim();
-      const rgb = hovered ? paletteFor(label) : scroll < viewport * 0.7 && hero
-        ? hero.split(",").map(Number) : paletteFor(label);
-      const color = `rgb(${rgb.join(",")})`;
-      if (color !== lastColor) {
-        root.style.setProperty("--scene-glow", color);
-        lastColor = color;
+      if (nearest) lastSection = nearest;
+      const label = pointer?.querySelector(".wt, .cinema-card-info strong")?.textContent || lastSection?.querySelector("h2")?.textContent || "YMCINEMA";
+      let next = paletteFor(label);
+      const hero = getComputedStyle(root).getPropertyValue("--hero-rgb").trim().split(",").map(Number);
+      if (!pointer && window.scrollY < viewport * .55 && hero.length === 3 && hero.every(Number.isFinite)) {
+        next = hero.map((n, i) => clamp(BASE[i] * .65 + n * .35, 35, 112));
       }
-      const rect = hovered?.getBoundingClientRect();
-      root.style.setProperty("--scene-x", rect ? `${Math.round((rect.left + rect.width / 2) / innerWidth * 100)}%` : "52%");
-      root.style.setProperty("--scene-y", rect ? `${Math.round((rect.top + rect.height / 2) / viewport * 100)}%` : "52%");
+      // A hover influences the color gently; never jump to a saturated palette.
+      target = next.map((n, i) => BASE[i] * .35 + n * .65);
     };
-    const schedule = () => { if (!raf) raf = requestAnimationFrame(update); };
-    const over = (e) => {
-      const card = e.target.closest?.(".premium-card, .t10");
-      if (card && card !== hovered) { hovered = card; schedule(); }
+    const tick = (now) => {
+      if (!active) return;
+      const dt = Math.min(64, Math.max(0, now - (last || now)));
+      last = now;
+      const blend = motion.matches ? 1 : 1 - Math.exp(-dt / 1550);
+      current = current.map((n, i) => n + (target[i] - n) * blend);
+      root.style.setProperty("--scene-glow", `rgb(${current.map(n => Math.round(n)).join(",")})`);
+      frame = requestAnimationFrame(tick);
     };
-    const out = (e) => {
-      if (hovered && hovered.contains(e.target) && !hovered.contains(e.relatedTarget)) {
-        hovered = null; schedule();
+    const onOver = (event) => {
+      const card = event.target.closest?.(".premium-card, .t10-premium");
+      if (card && card !== pointer) { pointer = card; selectTarget(); }
+    };
+    const onOut = (event) => {
+      if (pointer && pointer.contains(event.target) && !pointer.contains(event.relatedTarget)) {
+        pointer = null; selectTarget();
       }
     };
-    document.addEventListener("pointerover", over);
-    document.addEventListener("pointerout", out);
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
-    window.addEventListener("ymc-hero-change", schedule);
-    update();
+    document.addEventListener("pointerover", onOver);
+    document.addEventListener("pointerout", onOut);
+    window.addEventListener("scroll", selectTarget, { passive: true });
+    window.addEventListener("resize", selectTarget);
+    window.addEventListener("ymc-hero-change", selectTarget);
+    selectTarget();
+    frame = requestAnimationFrame(tick);
     return () => {
-      cancelAnimationFrame(raf);
-      document.removeEventListener("pointerover", over);
-      document.removeEventListener("pointerout", out);
-      window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
-      window.removeEventListener("ymc-hero-change", schedule);
-      ["--scene-glow", "--scene-x", "--scene-y"].forEach(p => root.style.removeProperty(p));
+      active = false;
+      cancelAnimationFrame(frame);
+      document.removeEventListener("pointerover", onOver);
+      document.removeEventListener("pointerout", onOut);
+      window.removeEventListener("scroll", selectTarget);
+      window.removeEventListener("resize", selectTarget);
+      window.removeEventListener("ymc-hero-change", selectTarget);
+      root.style.removeProperty("--scene-glow");
     };
   }, []);
   return <div className="ambient-field" aria-hidden="true" />;

@@ -88,7 +88,7 @@ export function Grid({ items, type }) {
 }
 
 export function Top10({ items, type, eyebrow, title, right, href, id }) {
-  const list = (items || []).filter((m) => m.poster_path).slice(0, 10);
+  const list = (items || []).filter((m) => m.backdrop_path || m.poster_path).slice(0, 10);
   if (!list.length) return null;
   return (
     <Section eyebrow={eyebrow} title={title} right={right} href={href} id={id}>
@@ -104,7 +104,7 @@ export function Top10({ items, type, eyebrow, title, right, href, id }) {
                   <span className="num" aria-hidden="true">{idx + 1}</span>
                   <div className="pp">
                     {m.vote_average > 0 && <span className="rtg">★ {m.vote_average.toFixed(1)}</span>}
-                    <Image src={`${IMG}/w500${m.poster_path}`} alt={name} fill sizes="(max-width: 600px) 155px, 205px" />
+                    <Image src={`${IMG}/${m.backdrop_path ? "w780" : "w500"}${m.backdrop_path || m.poster_path}`} alt={name} fill sizes="(max-width: 600px) 78vw, 360px" />
                     <span className="rank-gloss" aria-hidden="true" />
                   </div>
                 </div>
