@@ -14,7 +14,7 @@ export default async function Page({ params, searchParams }) {
   const backdrop = movie.backdrop_path ? `${IMG}/original${movie.backdrop_path}` : null;
   return <main className="watch-screen" style={backdrop ? {backgroundImage: `linear-gradient(90deg,rgba(6,5,12,.94),rgba(6,5,12,.54)),linear-gradient(0deg,#09070d,transparent 70%),url('${backdrop}')`} : {}}>
     <Link className="watch-back" href={`/${type}/${id}`}>← Back to details</Link>
-    <WatchExperience movieId={id} type={type} title={title} seasons={movie.number_of_seasons || 1} initialSeason={Math.max(1, Number(sp.season)||1)} initialEpisode={Math.max(1, Number(sp.episode)||1)} />
+    <WatchExperience key={`${type}-${id}-${sp.season || 1}-${sp.episode || 1}`} movieId={id} type={type} title={title} seasons={movie.number_of_seasons || 1} initialSeason={Math.max(1, Number(sp.season)||1)} initialEpisode={Math.max(1, Number(sp.episode)||1)} />
     {type === "tv" && <WatchEpisodeNavigator id={id} seasons={movie.number_of_seasons || 1} initialSeason={Math.max(1, Number(sp.season)||1)} initialEpisode={Math.max(1, Number(sp.episode)||1)} />}
   </main>;
 }
