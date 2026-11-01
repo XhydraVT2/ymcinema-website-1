@@ -397,3 +397,28 @@ button{font:inherit}
 .premium-card .wt{transition:color .3s}.premium-card:hover .wt{color:#fff}
 @media(hover:none){.premium-card:hover{transform:none}.premium-card .glass-play{opacity:.85;transform:translate(-50%,-50%) scale(.8);width:44px;height:44px;font-size:14px}}
 @media(prefers-reduced-motion:reduce){.premium-card,.premium-card *, .premium-card *::before,.premium-card *::after{transition:none!important;animation:none!important}.premium-card:hover{transform:none}}
+
+/* V5: responsive, cursor-reactive optical glass. All effects are composited and scoped. */
+.spotlight-shell {position:relative;flex:0 0 auto;perspective:1000px;isolation:isolate;--spot-x:50%;--spot-y:50%;--tilt-x:0deg;--tilt-y:0deg}
+.spotlight-shell>.premium-card {display:block;height:100%;transform-style:preserve-3d;transform:rotateX(var(--tilt-x)) rotateY(var(--tilt-y));transition:transform .55s cubic-bezier(.16,1,.3,1)}
+.spotlight-shell:hover>.premium-card,.spotlight-shell:focus-within>.premium-card {transform:translateY(-9px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) scale(1.018)}
+.spotlight-shell .thumb {position:relative;overflow:hidden;isolation:isolate}
+.spotlight-shell .thumb:before {background:radial-gradient(ellipse 65% 65% at var(--spot-x) var(--spot-y),rgba(255,255,255,.24),transparent 85%),linear-gradient(180deg,transparent 35%,rgba(0,0,0,.62));opacity:0;transition:opacity .35s;z-index:3}
+.spotlight-shell:hover .thumb:before,.spotlight-shell:focus-within .thumb:before {opacity:1}
+.spotlight-shell .thumb:after {background:radial-gradient(ellipse at var(--spot-x) var(--spot-y),rgba(255,255,255,.15),transparent 65%);opacity:0;transition:opacity .35s;z-index:4}
+.spotlight-shell:hover .thumb:after,.spotlight-shell:focus-within .thumb:after {opacity:1}
+.spotlight-shell .glass-play {z-index:6}
+.spotlight-shell .premium-card:hover {transform:none}
+.spotlight-shell:has(.premium-card:hover) {z-index:8}
+.spotlight-shell .wt,.spotlight-shell .wm {position:relative;z-index:1}
+.spotlight-shell:hover .wt {text-shadow:0 0 22px rgba(255,255,255,.3)}
+.nav.glass {background:linear-gradient(120deg,rgba(36,35,45,.74),rgba(22,20,30,.54))!important;backdrop-filter:blur(28px) saturate(170%)!important;-webkit-backdrop-filter:blur(28px) saturate(170%)!important;border:1px solid rgba(255,255,255,.17)!important;box-shadow:0 14px 48px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.17)!important}
+.nav-links a {transition:background .3s,color .3s,transform .3s}
+.nav-links a:hover {transform:translateY(-2px)}
+.hero {isolation:isolate}
+.hero:after {content:"";position:absolute;inset:auto 0 0;height:44%;pointer-events:none;background:linear-gradient(0deg,var(--bg),transparent);z-index:1}
+.hero-bg img {transform:scale(1.04);transition:transform 12s linear}
+.hero-bg.on img {transform:scale(1.13)}
+.upnext {background:rgba(15,14,22,.45)!important;backdrop-filter:blur(28px) saturate(155%)!important;-webkit-backdrop-filter:blur(28px) saturate(155%)!important;border:1px solid rgba(255,255,255,.18);box-shadow:0 20px 55px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.14)}
+@media (hover:none) {.spotlight-shell>.premium-card,.spotlight-shell:hover>.premium-card {transform:none}.spotlight-shell .thumb:before,.spotlight-shell .thumb:after {opacity:0!important}}
+@media (prefers-reduced-motion:reduce) {.spotlight-shell>.premium-card,.spotlight-shell:hover>.premium-card,.hero-bg img,.hero-bg.on img {transform:none!important;transition:none!important}}

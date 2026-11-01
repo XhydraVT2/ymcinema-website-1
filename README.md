@@ -1,22 +1,13 @@
-# YMCINEMA
+# YMCINEMA V5 — optical glass polish
 
-Bollywood-first movie & TV discovery site (Next.js + TMDB). Hollywood and TV sections included.
+Based on the user's Glass Hover V4 project. Adds pointer-reactive spotlight and subtle 3D tilt to movie cards, layered translucent navigation, softer hero backdrop movement, and frosted Up Next panel. Keeps existing routes, provider discovery and Watch 1–7.
 
-## Run locally
-1. `npm install`
-2. Copy `.env.example` to `.env.local` and set `TMDB_TOKEN` (free "API Read Access Token" from https://www.themoviedb.org/settings/api)
-3. `npm run dev`
+## Install / test
 
-## Deploy to Vercel
-1. Push this folder to a GitHub repo, or run `npx vercel` inside it.
-2. Project name: `ymcinema`.
-3. Add environment variable `TMDB_TOKEN` (Project Settings -> Environment Variables), then redeploy.
+```bash
+npm install
+npm run build
+npm run dev
+```
 
-## Notes
-- Bollywood = Hindi-language films (`with_original_language=hi`, region IN).
-- Streaming providers use TMDB watch-provider data for India, ordered Bollywood-first (see `lib/providers.js`).
-- This product uses the TMDB API but is not endorsed or certified by TMDB.
-
-
-## Indian streaming provider discovery
-The homepage now includes an India-first provider selector, driven by TMDB/JustWatch availability. Select a provider to browse Hindi movie or TV listings; cards open YMCINEMA detail pages. Provider logos are used for identification only; no provider-site redirect is added. TMDB_TOKEN must be set in the deployment environment. Listings are informational and do not establish streaming rights.
+No external animation packages are required. Pointer effects respect reduced-motion preferences. Third-party embeds have not been independently verified.

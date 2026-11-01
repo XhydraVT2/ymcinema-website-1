@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import CarouselRail from "./CarouselRail";
+import SpotlightCard from "./SpotlightCard";
 import { IMG } from "../lib/tmdb";
 
 function typeOf(item, type) {
@@ -17,7 +18,7 @@ export function Card({ item, type }) {
     ? `${IMG}/w500${item.poster_path}`
     : null;
   return (
-    <Link href={`/${t}/${item.id}`} className="wcard premium-card">
+    <SpotlightCard><Link href={`/${t}/${item.id}`} className="wcard premium-card">
       <div className="thumb">
         <span className="glass-sheen" aria-hidden="true" />
         <span className="glass-play" aria-hidden="true">▶</span>
@@ -33,7 +34,7 @@ export function Card({ item, type }) {
         <span>{date.slice(0, 4) || "TBA"}</span>
         {item.vote_average > 0 && <span className="rt">★ {item.vote_average.toFixed(1)}</span>}
       </div>
-    </Link>
+    </Link></SpotlightCard>
   );
 }
 
