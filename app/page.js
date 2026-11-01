@@ -1,6 +1,8 @@
 import { getCategory, getHeroSlides } from "../lib/tmdb";
 
 import Hero from "../components/Hero";
+import Genres from "../components/Genres";
+import PlatformCarousel from "../components/PlatformCarousel";
 import { Providers } from "../components/Providers";
 import { getProviders, getProviderTitles } from "../lib/providers";
 import { Row, Top10 } from "../components/Cards";
@@ -100,6 +102,8 @@ export default async function Home({ searchParams }) {
         />
 
         {AFTER.map(wide)}
+        <Genres movies={[...(byKey["bollywood-trending"]?.results || []), ...(byKey["hollywood-trending"]?.results || [])]} shows={[...(byKey["hindi-series"]?.results || []), ...(byKey["tv-trending"]?.results || [])]} />
+        <PlatformCarousel />
       </main>
     </>
   );

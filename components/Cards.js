@@ -92,16 +92,28 @@ export function Top10({ items, type, eyebrow, title, right, href, id }) {
   if (!list.length) return null;
   return (
     <Section eyebrow={eyebrow} title={title} right={right} href={href} id={id}>
-      <div className="top10">
-        {list.map((m, idx) => (
-          <Link key={m.id} href={`/${type}/${m.id}`} className="t10">
-            <span className="num">{idx + 1}</span>
-            <div className="pp">
-              {m.vote_average > 0 && <span className="rtg">★ {m.vote_average.toFixed(1)}</span>}
-              <Image src={`${IMG}/w342${m.poster_path}`} alt={m.title || m.name} fill sizes="180px" />
-            </div>
-          </Link>
-        ))}
+      <div className="top10 top10-premium" aria-label={`${title} rankings`}>
+        {list.map((m, idx) => {
+          const mediaType = typeOf(m, type);
+          const name = m.title || m.name || "Untitled";
+          const year = (m.release_date || m.first_air_date || "").slice(0, 4);
+          return (
+            <Reveal key={`${mediaType}-${m.id}`} className="rank-reveal">
+              <Link href={`/${mediaType}/${m.id}`} className="t10 t10-premium" aria-label={`Number ${idx + 1}: ${name}`}>
+                <div className="rank-art">
+                  <span className="num" aria-hidden="true">{idx + 1}</span>
+                  <div className="pp">
+                    {m.vote_average > 0 && <span className="rtg">★ {m.vote_average.toFixed(1)}</span>}
+                    <Image src={`${IMG}/w500${m.poster_path}`} alt={name} fill sizes="(max-width: 600px) 155px, 205px" />
+                    <span className="rank-gloss" aria-hidden="true" />
+                  </div>
+                </div>
+                <div className="rank-title" title={name}>{name}</div>
+                <div className="wm"><span className="kind">{mediaType === "tv" ? "SERIES" : "MOVIE"}</span><span>{year || "TBA"}</span></div>
+              </Link>
+            </Reveal>
+          );
+        })}
       </div>
     </Section>
   );
