@@ -921,3 +921,22 @@ body { isolation:isolate; }
 .genre-nav:disabled{opacity:0!important;pointer-events:none!important}
 @media(hover:none){.genre-nav:not(:disabled){opacity:.85;pointer-events:auto;width:40px;height:40px;font-size:29px}}
 @media(prefers-reduced-motion:reduce){.genre-carousel-shell .genre-rail{scroll-behavior:auto}.genre-nav{transition:none}}
+
+/* V24 — Keep inner-page headings clear of the floating sticky navbar.
+   Earlier generic .wrap padding overrides .page, collapsing the heading into the nav. */
+main.wrap.page,
+main.wrap.genre-page {
+  padding-top: clamp(130px, 10vw, 160px) !important;
+}
+main.wrap.page > .page-head,
+main.wrap.genre-page > .eyebrow,
+main.wrap.genre-page > h1 {
+  position: relative;
+  z-index: 1;
+}
+@media (max-width: 800px) {
+  main.wrap.page,
+  main.wrap.genre-page {
+    padding-top: 125px !important;
+  }
+}
