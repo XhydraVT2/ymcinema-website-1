@@ -17,8 +17,10 @@ export function Card({ item, type }) {
     ? `${IMG}/w500${item.poster_path}`
     : null;
   return (
-    <Link href={`/${t}/${item.id}`} className="wcard">
+    <Link href={`/${t}/${item.id}`} className="wcard premium-card">
       <div className="thumb">
+        <span className="glass-sheen" aria-hidden="true" />
+        <span className="glass-play" aria-hidden="true">▶</span>
         {src ? (
           <Image src={src} alt={title} fill sizes="(max-width: 700px) 80vw, 370px" />
         ) : (
