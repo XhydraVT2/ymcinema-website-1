@@ -3,11 +3,11 @@ import { useState } from "react";
 import MoviePlayer from "./MoviePlayer";
 
 const names = Array.from({length:7},(_,i)=>`Watch ${i+1}`);
-export default function WatchExperience({movieId,type,title,seasons}) {
+export default function WatchExperience({movieId,type,title,seasons,initialSeason=1,initialEpisode=1}) {
   const [selected,setSelected] = useState(0);
   const [started,setStarted] = useState(false);
-  const [season,setSeason] = useState(1);
-  const [episode,setEpisode] = useState(1);
+  const [season,setSeason] = useState(initialSeason);
+  const [episode,setEpisode] = useState(initialEpisode);
   const [loading,setLoading] = useState(false);
   const sources = [
     { movie:id=>`https://cinevu.icu/player.html?type=movie&id=${id}`,tv:(id,s,e)=>`https://embed.cinevu.icu/embed/tv/${id}/${s}/${e}`,sandbox:false },
