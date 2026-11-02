@@ -9,9 +9,9 @@ export async function GET(req){
  if(!key)return NextResponse.json({videos:[],configured:false,message:"Add YOUTUBE_API_KEY to enable verified YouTube song discovery."});
  const p=new URL(req.url).searchParams;const category=p.get("category")||"trending";
  const query=(p.get("q")||"").trim().slice(0,100);
- const q=query?`${query} official song Hindi Bollywood`:(terms[category]||terms.trending);
+ const q=query?`${query} song`:(terms[category]||terms.trending);
  try{
-  const found=await youtube("search",{part:"snippet",q,type:"video",videoEmbeddable:"true",videoSyndicated:"true",maxResults:25,regionCode:"IN",relevanceLanguage:"hi",order:category==="new"&&!query?"date":"relevance",safeSearch:"moderate"},key);
+  const found=await youtube("search",{part:"snippet",q,type:"video",videoEmbeddable:"true",videoSyndicated:"true",maxResults:35,regionCode:"IN",relevanceLanguage:"hi",order:category==="new"&&!query?"date":"relevance",safeSearch:"moderate"},key);
   const candidates=(found.items||[]).filter(x=>validId(x.id?.videoId)&&!reject.test(x.snippet?.title||""));
   if(!candidates.length)return NextResponse.json({videos:[],configured:true});
   const details=await youtube("videos",{part:"status,snippet,contentDetails",id:candidates.map(x=>x.id.videoId).join(",")},key);
@@ -20,6 +20,22 @@ export async function GET(req){
    const v=verified.get(x.id.videoId),sn=v.snippet||x.snippet;
    return {id:x.id.videoId,title:sn.title||"Official song",channel:sn.channelTitle||"YouTube",thumbnail:sn.thumbnails?.high?.url||sn.thumbnails?.medium?.url||"",publishedAt:sn.publishedAt||"",official:official.test(sn.channelTitle||"")};
   }).filter(x=>!reject.test(x.title) && (category!=="king" || /\bKING\b/i.test(x.title))).sort((a,b)=>Number(b.official)-Number(a.official));
-  return NextResponse.json({videos:videos.slice(0,20),configured:true,notice:"Search results are not an official popularity chart. Embedding may still be restricted by region or owner."});
+  // The featured video is an editorial choice, not a claim of YouTube trending rank.
+  // Owner can change it via YOUTUBE_FEATURED_VIDEO_ID in Vercel; default is the supplied example.
+  let featured=null;
+  if(!query&&category==="trending"){
+   const featuredId=process.env.YOUTUBE_FEATURED_VIDEO_ID || "BPZkZpGMpXA";
+   if(validId(featuredId)){
+    try{
+     const info=await youtube("videos",{part:"status,snippet,contentDetails",id:featuredId},key);
+     const item=info.items?.[0];
+     if(item?.status?.embeddable&&item.status.privacyStatus==="public"){
+      const sn=item.snippet;
+      featured={id:item.id,title:sn.title,channel:sn.channelTitle,thumbnail:sn.thumbnails?.maxres?.url||sn.thumbnails?.high?.url||sn.thumbnails?.medium?.url||"",publishedAt:sn.publishedAt,official:official.test(sn.channelTitle||"")};
+     }
+    }catch{}
+   }
+  }
+  return NextResponse.json({videos:videos.slice(0,30),featured,configured:true,notice:"Search results are not an official popularity chart. Embedding may still be restricted by region or owner."});
  }catch(e){return NextResponse.json({videos:[],configured:true,error:"YouTube search unavailable. Check API key and quota."},{status:502})}
 }
