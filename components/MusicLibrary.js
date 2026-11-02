@@ -1,95 +1,37 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
-
-const CATEGORIES = [
-  { name:"Bollywood", subtitle:"Hindi hits & film soundtracks", term:"Bollywood Hindi music", icon:"✦", tone:"warm" },
-  { name:"English", subtitle:"Pop, indie & chart favorites", term:"English pop music", icon:"♫", tone:"blue" },
-  { name:"International", subtitle:"Music from around the world", term:"international world music", icon:"◎", tone:"violet" },
-  { name:"Lo-fi", subtitle:"Chill, focus & late-night listening", term:"lofi chill beats", icon:"☾", tone:"green" },
-  { name:"Electronic", subtitle:"Dance & electronic sounds", term:"electronic dance music", icon:"⌁", tone:"red" },
-  { name:"Instrumental", subtitle:"Scores & instrumental pieces", term:"instrumental music", icon:"♬", tone:"gold" },
-];
-const STORAGE = "ymcinema.soundcloud.library.v1";
-const soundcloudSearch = term => `https://soundcloud.com/search?q=${encodeURIComponent(term)}`;
-function isValidSoundCloud(input) {
-  try {
-    const url = new URL(input.trim());
-    return url.protocol === "https:" && ["soundcloud.com","www.soundcloud.com","m.soundcloud.com"].includes(url.hostname) && url.pathname.length > 1;
-  } catch { return false; }
+import { useEffect, useRef, useState } from "react";
+const tabs=[["trending","Discover"],["new","New Releases"],["king","KING"],["romantic","Romantic"],["dance","Dance"],["classics","Classics"]];
+const STORE="ymcinema.hindi.music.favorites.v1";
+const sc = q => `https://soundcloud.com/search?q=${encodeURIComponent(q)}`;
+const yt = q => `https://www.youtube.com/results?search_query=${encodeURIComponent(q+" official song")}`;
+export default function MusicLibrary(){
+ const [category,setCategory]=useState("trending"),[tracks,setTracks]=useState([]),[loading,setLoading]=useState(true),[error,setError]=useState(""),[search,setSearch]=useState(""),[playing,setPlaying]=useState(null),[favorites,setFavorites]=useState([]),[showFavorites,setShowFavorites]=useState(false),[youtube,setYoutube]=useState(null);
+ const audio=useRef(null);
+ useEffect(()=>{try{const v=JSON.parse(localStorage.getItem(STORE)||"[]");if(Array.isArray(v))setFavorites(v)}catch{}},[]);
+ useEffect(()=>{try{localStorage.setItem(STORE,JSON.stringify(favorites))}catch{}},[favorites]);
+ useEffect(()=>{let cancelled=false;setLoading(true);setError("");setPlaying(null);setYoutube(null);fetch("/api/music/discover?category="+encodeURIComponent(category)).then(async r=>{const data=await r.json();if(!r.ok)throw new Error(data.error||"Unavailable");return data}).then(d=>{if(!cancelled)setTracks(d.tracks||[])}).catch(e=>{if(!cancelled){setTracks([]);setError(e.message)}}).finally(()=>{if(!cancelled)setLoading(false)});return()=>{cancelled=true}},[category]);
+ const listed=(showFavorites?favorites:tracks).filter(t=>`${t.title} ${t.artist} ${t.album}`.toLowerCase().includes(search.toLowerCase()));
+ function toggleFavorite(t){setFavorites(old=>old.some(x=>x.id===t.id)?old.filter(x=>x.id!==t.id):[t,...old])}
+ function play(t){setYoutube(null);setPlaying(old=>old?.id===t.id?null:t)}
+ return <main className="ym-hindi-music">
+  <header className="ym-hindi-hero"><div className="ym-hindi-glow"/><span className="ym-hindi-overline">YMCINEMA · HINDI MUSIC</span><h1>Bollywood, on repeat<span>.</span></h1><p>Discover fresh Hindi film songs, explore your favorites, and listen without leaving YMCINEMA.</p><div className="ym-hindi-hero-actions"><a href="#discover">Explore music ↓</a><a href={sc("latest bollywood hindi songs")} target="_blank" rel="noopener noreferrer">Explore SoundCloud ↗</a></div></header>
+  <section id="discover" className="ym-hindi-content">
+   <div className="ym-hindi-heading"><div><span>YOUR BOLLYWOOD SOUNDTRACK</span><h2>Discover Hindi music</h2></div><button type="button" className={showFavorites?"ym-hindi-saved selected":"ym-hindi-saved"} onClick={()=>setShowFavorites(v=>!v)}>♡ {showFavorites?"Show discovery":"My favorites"} ({favorites.length})</button></div>
+   <div className="ym-hindi-toolbar"><div className="ym-hindi-tabs">{tabs.map(([key,label])=><button type="button" key={key} className={!showFavorites&&category===key?"selected":""} onClick={()=>{setCategory(key);setShowFavorites(false)}}>{label}</button>)}</div><input type="search" aria-label="Search displayed music" placeholder="Search songs or artists…" value={search} onChange={e=>setSearch(e.target.value)}/></div>
+   {category==="king"&&!showFavorites&&<div className="ym-hindi-spotlight"><strong>✦ Spotlight: KING — Tu Mil Jaaye</strong><span>Explore the new song from Shah Rukh Khan's KING. Availability in the music catalog depends on the provider.</span><a href={yt("KING Tu Mil Jaaye T Series Arijit Ed Sheeran")} target="_blank" rel="noopener noreferrer">Find official video ↗</a></div>}
+   {loading&&!showFavorites?<div className="ym-hindi-state">Finding Hindi songs…</div>:error&&!showFavorites?<div className="ym-hindi-state">{error} <button onClick={()=>setCategory("new")}>Try New Releases</button></div>:listed.length===0?<div className="ym-hindi-state">{showFavorites?"No saved songs yet. Tap ♡ on a track to save it.":"No matching songs found. Try another category."}</div>:<div className="ym-hindi-grid">{listed.map((t,i)=><article className="ym-hindi-track" key={t.id+"-"+i}>
+    <div className="ym-hindi-art"><img src={t.artwork||"/favicon.ico"} alt="" loading="lazy"/><button className="ym-hindi-play" type="button" onClick={()=>play(t)} aria-label={`Play preview of ${t.title}`} disabled={!t.preview}>{playing?.id===t.id?"Ⅱ":"▶"}</button></div>
+    <div className="ym-hindi-track-title" title={t.title}>{t.title}</div><div className="ym-hindi-track-artist" title={t.artist}>{t.artist}</div>
+    <div className="ym-hindi-track-actions"><button type="button" onClick={()=>toggleFavorite(t)} aria-label={`Favorite ${t.title}`}>{favorites.some(f=>f.id===t.id)?"♥ Saved":"♡ Save"}</button><a href={yt(t.title+" "+t.artist)} target="_blank" rel="noopener noreferrer">Full song ↗</a></div>
+   </article>)}</div>}
+   <div className="ym-hindi-note">Tracks are discovered from India's music catalog and may include non-Hindi matches. New releases are sorted by release date, not a verified trending ranking. Playback previews are provided by Apple; full songs open official-platform searches.</div>
+  </section>
+  <section className="ym-hindi-sc"><div><span>SOUNDCLOUD COLLECTION</span><h2>More Bollywood on SoundCloud</h2><p>Explore Hindi playlists and songs on SoundCloud. Play public, embeddable tracks right here by pasting their URL below.</p></div><SoundCloudPlayer/></section>
+  {playing&&<div className="ym-hindi-player" role="region" aria-label="Audio preview player"><img src={playing.artwork} alt=""/><div><strong>{playing.title}</strong><small>{playing.artist} · Preview clip</small></div><audio key={playing.id} ref={audio} src={playing.preview} controls autoPlay onEnded={()=>setPlaying(null)}/><button type="button" onClick={()=>setPlaying(null)} aria-label="Close player">✕</button></div>}
+ </main>
 }
-export default function MusicLibrary() {
-  const [items, setItems] = useState([]);
-  const [ready, setReady] = useState(false);
-  const [input, setInput] = useState("");
-  const [query, setQuery] = useState("");
-  const [active, setActive] = useState(null);
-  const [error, setError] = useState("");
-  const [busy, setBusy] = useState(false);
-  const [filter, setFilter] = useState("All");
-  useEffect(() => {
-    try { const saved = JSON.parse(localStorage.getItem(STORAGE) || "[]"); if (Array.isArray(saved)) setItems(saved.filter(x => x && typeof x.url === "string").slice(0,100)); } catch {}
-    setReady(true);
-  }, []);
-  useEffect(() => { if (ready) { try { localStorage.setItem(STORAGE,JSON.stringify(items)); } catch {} } }, [items,ready]);
-  const shown = useMemo(() => items.filter(x => (filter === "All" || x.category === filter) && `${x.title} ${x.author} ${x.category}`.toLowerCase().includes(query.toLowerCase())), [items,filter,query]);
-  async function add(e) {
-    e.preventDefault(); setError("");
-    const url = input.trim();
-    if (!isValidSoundCloud(url)) { setError("Paste a full HTTPS SoundCloud track or playlist link."); return; }
-    if (items.some(x => x.url === url)) { setError("This link is already in your library."); return; }
-    setBusy(true);
-    try {
-      const response = await fetch(`/api/soundcloud/oembed?url=${encodeURIComponent(url)}`);
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "Unable to load audio.");
-      setItems(old => [{...data, category:filter === "All" ? "Bollywood" : filter, added:Date.now()},...old].slice(0,100));
-      setInput("");
-    } catch(err) { setError(err.message || "Couldn't add this link."); }
-    finally { setBusy(false); }
-  }
-  const selected = items.find(x => x.url === active);
-  return <main className="ym-music-page">
-    <div className="ym-music-hero">
-      <div className="ym-music-orb" aria-hidden="true" />
-      <span className="ym-music-kicker">YMCINEMA · MUSIC</span>
-      <h1>Your music.<br/><span>One cinematic library.</span></h1>
-      <p>Bollywood, English and international sounds, powered by official SoundCloud embeds. Discover tracks and save the ones you love.</p>
-      <div className="ym-music-hero-actions">
-        <a href="#music-library" className="ym-music-primary">Explore my library ↓</a>
-        <a href={soundcloudSearch("Bollywood Hindi music")} target="_blank" rel="noopener noreferrer" className="ym-music-secondary">Discover on SoundCloud ↗</a>
-      </div>
-    </div>
-    <section className="ym-music-section" aria-labelledby="music-discover">
-      <div className="ym-music-section-heading"><div><span>FIND YOUR SOUND</span><h2 id="music-discover">Browse by mood & genre</h2></div></div>
-      <div className="ym-music-categories">{CATEGORIES.map(cat=><a key={cat.name} className={`ym-music-category ${cat.tone}`} href={soundcloudSearch(cat.term)} target="_blank" rel="noopener noreferrer" aria-label={`Discover ${cat.name} on SoundCloud`}>
-        <span className="ym-music-category-icon">{cat.icon}</span><strong>{cat.name}</strong><small>{cat.subtitle}</small><span className="ym-music-arrow">↗</span>
-      </a>)}</div>
-    </section>
-    <section className="ym-music-section" id="music-library" aria-labelledby="my-music">
-      <div className="ym-music-section-heading"><div><span>YOUR COLLECTION</span><h2 id="my-music">My music library <em>{items.length}</em></h2></div></div>
-      <p className="ym-music-help">Find a public track or playlist on SoundCloud, copy its link, and add it here. Your collection is saved in this browser.</p>
-      <form onSubmit={add} className="ym-music-add">
-        <input aria-label="SoundCloud track or playlist URL" type="url" required placeholder="Paste SoundCloud track or playlist URL…" value={input} onChange={e=>setInput(e.target.value)} />
-        <button type="submit" disabled={busy}>{busy ? "Checking…" : "+ Add to library"}</button>
-      </form>
-      {error && <p className="ym-music-error" role="alert">{error}</p>}
-      <div className="ym-music-toolbar">
-        <div className="ym-music-filters">{["All","Bollywood","English","International","Lo-fi","Electronic","Instrumental"].map(name=><button key={name} type="button" className={filter===name?"selected":""} onClick={()=>setFilter(name)}>{name}</button>)}</div>
-        <input className="ym-music-search" type="search" aria-label="Filter saved music" placeholder="Search your library…" value={query} onChange={e=>setQuery(e.target.value)}/>
-      </div>
-      {!ready ? <p className="ym-music-help">Loading your library…</p> : shown.length === 0 ? <div className="ym-music-empty"><div>♫</div><h3>{items.length ? "No matches found" : "Your soundtrack starts here"}</h3><p>{items.length ? "Try another search or category." : "Add your first public SoundCloud track or playlist above. Browse the categories to find something worth saving."}</p></div> : <div className="ym-music-grid">{shown.map(item=><article key={item.url} className={`ym-music-card ${active===item.url?"active":""}`}>
-        <button type="button" className="ym-music-card-main" onClick={()=>setActive(active===item.url?null:item.url)}>
-          {item.thumbnail ? <img src={item.thumbnail} alt="" loading="lazy" /> : <div className="ym-music-placeholder">♫</div>}
-          <span className="ym-music-card-play">{active===item.url?"✕":"▶"}</span>
-        </button>
-        <div className="ym-music-card-info"><strong title={item.title}>{item.title}</strong><small>{item.author || "SoundCloud"} · {item.category}</small></div>
-        <div className="ym-music-card-actions"><a href={item.url} target="_blank" rel="noopener noreferrer">SoundCloud ↗</a><button type="button" onClick={()=>{setItems(old=>old.filter(x=>x.url!==item.url));if(active===item.url)setActive(null)}} aria-label={`Remove ${item.title}`}>Remove</button></div>
-      </article>)}</div>}
-    </section>
-    {selected && <div className="ym-music-player" role="region" aria-label="SoundCloud music player">
-      <div className="ym-music-player-top"><strong>{selected.title}</strong><button type="button" onClick={()=>setActive(null)} aria-label="Close music player">✕</button></div>
-      <iframe key={selected.url} title={`SoundCloud: ${selected.title}`} src={`https://w.soundcloud.com/player/?url=${encodeURIComponent(selected.url)}&color=%23ff713d&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false`} allow="encrypted-media" loading="lazy" />
-    </div>}
-    <p className="ym-music-disclaimer">Playback is provided by SoundCloud. Availability depends on each creator's embed settings and regional restrictions. This library is stored locally on your device; it does not sync across accounts.</p>
-  </main>;
+function SoundCloudPlayer(){
+ const [input,setInput]=useState(""),[url,setUrl]=useState(""),[error,setError]=useState("");
+ function submit(e){e.preventDefault();setError("");try{const u=new URL(input);if(u.protocol!=="https:"||!["soundcloud.com","www.soundcloud.com","m.soundcloud.com"].includes(u.hostname)||u.pathname==="/")throw Error();setUrl(u.toString())}catch{setError("Enter a public HTTPS SoundCloud track or playlist link.")}}
+ return <div className="ym-hindi-sc-player"><form onSubmit={submit}><input value={input} onChange={e=>setInput(e.target.value)} placeholder="Paste a public SoundCloud track or playlist link…" aria-label="SoundCloud URL"/><button type="submit">Play here</button></form>{error&&<p role="alert">{error}</p>}{url&&<iframe title="SoundCloud embedded music player" src={`https://w.soundcloud.com/player/?url=${encodeURIComponent(url)}&auto_play=false&show_comments=false`} loading="lazy" allow="encrypted-media"/>}<a href={sc("bollywood hindi official songs")} target="_blank" rel="noopener noreferrer">Browse Bollywood on SoundCloud ↗</a></div>
 }

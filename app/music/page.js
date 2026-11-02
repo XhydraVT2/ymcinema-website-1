@@ -1,6 +1,3 @@
 import MusicLibrary from "../../components/MusicLibrary";
-export const metadata = {
-  title: "Music Library | YMCINEMA",
-  description: "Build a personal library of SoundCloud tracks and playlists, discover Bollywood and international music."
-};
-export default function MusicPage() { return <MusicLibrary />; }
+export const metadata = {title:"Bollywood Music | YMCINEMA",description:"Discover new Hindi songs and Bollywood soundtracks with playable previews and SoundCloud embeds."};
+export default function MusicPage(){return <MusicLibrary/>}
