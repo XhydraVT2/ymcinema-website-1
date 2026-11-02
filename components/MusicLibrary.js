@@ -5,7 +5,7 @@ const STORE="ymcinema.hindi.music.favorites.v1";
 const sc = q => `https://soundcloud.com/search?q=${encodeURIComponent(q)}`;
 const yt = q => `https://www.youtube.com/results?search_query=${encodeURIComponent(q+" official song")}`;
 export default function MusicLibrary(){
- const [videos,setVideos]=useState([]),[ytLoading,setYtLoading]=useState(false),[ytConfigured,setYtConfigured]=false,[ytError,setYtError]=useState(""),[activeVideo,setActiveVideo]=useState(null),[category,setCategory]=useState("trending"),[tracks,setTracks]=useState([]),[loading,setLoading]=useState(true),[error,setError]=useState(""),[search,setSearch]=useState(""),[playing,setPlaying]=useState(null),[favorites,setFavorites]=useState([]),[showFavorites,setShowFavorites]=useState(false),[youtube,setYoutube]=useState(null);
+ const [videos,setVideos]=useState([]),[ytLoading,setYtLoading]=useState(false),[ytConfigured,setYtConfigured]=useState(false),[ytError,setYtError]=useState(""),[activeVideo,setActiveVideo]=useState(null),[category,setCategory]=useState("trending"),[tracks,setTracks]=useState([]),[loading,setLoading]=useState(true),[error,setError]=useState(""),[search,setSearch]=useState(""),[playing,setPlaying]=useState(null),[favorites,setFavorites]=useState([]),[showFavorites,setShowFavorites]=useState(false),[youtube,setYoutube]=useState(null);
  const audio=useRef(null);
  useEffect(()=>{try{const v=JSON.parse(localStorage.getItem(STORE)||"[]");if(Array.isArray(v))setFavorites(v)}catch{}},[]);
  useEffect(()=>{try{localStorage.setItem(STORE,JSON.stringify(favorites))}catch{}},[favorites]);
