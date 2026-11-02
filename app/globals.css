@@ -961,3 +961,14 @@ main.wrap.genre-page > h1 {
 .v29-art-new.is-visible {opacity:.47;}
 .v29-art-overlay {position:absolute;inset:0;z-index:3;background:linear-gradient(180deg,transparent,rgba(10,16,23,.18) 48%,rgba(9,15,22,.45));pointer-events:none;}
 @media(prefers-reduced-motion:reduce){.v29-art-new{transition:none;}}
+
+/* V30: keep the browser in charge of vertical mouse-wheel scrolling.
+   Smooth behavior belongs to explicit carousel arrow actions, not the document. */
+html, body { scroll-behavior: auto !important; overscroll-behavior-y: auto; }
+/* Horizontal rails must not trap a vertical wheel gesture. */
+.hrow, .top10, .top10-premium, .genre-rail, .v14-rail,
+.episode-list.episode-carousel, .watch-episode-rail {
+  overscroll-behavior-y: auto !important;
+  scroll-behavior: auto !important;
+}
+/* Keep explicit horizontal arrow animation via scrollBy({behavior:'smooth'}). */
