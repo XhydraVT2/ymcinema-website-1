@@ -972,3 +972,36 @@ html, body { scroll-behavior: auto !important; overscroll-behavior-y: auto; }
   scroll-behavior: auto !important;
 }
 /* Keep explicit horizontal arrow animation via scrollBy({behavior:'smooth'}). */
+
+/* V32: Cast carousel controls for movie and series details */
+.cast-carousel { position:relative; min-width:0; }
+.cast-carousel .cast-row { scroll-behavior:smooth; overscroll-behavior-x:contain; }
+.cast-arrow { position:absolute; top:42%; transform:translateY(-50%); z-index:8; width:46px; height:46px; display:grid; place-items:center; border:1px solid rgba(255,255,255,.35); border-radius:50%; background:rgba(17,25,36,.84); color:white; font-size:32px; line-height:1; cursor:pointer; backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); box-shadow:0 10px 28px #0006; opacity:0; transition:opacity .2s,background .2s,transform .2s; }
+.cast-prev { left:8px; } .cast-next { right:8px; }
+.cast-carousel:hover .cast-arrow:not(:disabled), .cast-arrow:focus-visible { opacity:1; }
+.cast-arrow:hover:not(:disabled) { background:rgba(80,94,113,.95); transform:translateY(-50%) scale(1.07); }
+.cast-arrow:disabled { opacity:0!important; pointer-events:none; }
+.cast-arrow:focus-visible { outline:2px solid white; outline-offset:3px; }
+@media (hover:none) { .cast-arrow:not(:disabled) { opacity:.92; } }
+@media (prefers-reduced-motion:reduce) { .cast-carousel .cast-row {scroll-behavior:auto;} .cast-arrow {transition:none;} }
+
+/* V33 movie soundtrack discovery */
+.ym-songs-section{margin:70px 0 60px;scroll-margin-top:110px}
+.ym-songs-heading{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:24px}
+.ym-songs-heading h2{font-size:clamp(28px,3.1vw,43px);font-weight:850;letter-spacing:-.045em;margin:7px 0 0}
+.ym-songs-eyebrow{font-size:11px;font-weight:800;letter-spacing:.16em;color:#aeb9c6}
+.ym-songs-search,.ym-songs-close{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.2);border-radius:24px;color:white;padding:11px 16px;font:inherit;font-weight:700;text-decoration:none;cursor:pointer}
+.ym-songs-track{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:5px 2px 18px}
+.ym-songs-track::-webkit-scrollbar{display:none}
+.ym-song-card{background:transparent;color:white;text-align:left;border:0;padding:0;flex:0 0 clamp(230px,25vw,345px);min-width:0;cursor:pointer;scroll-snap-align:start;font:inherit}
+.ym-song-image{display:grid;place-items:center;aspect-ratio:16/9;background-size:cover;background-position:center;border:1px solid rgba(255,255,255,.2);border-radius:17px;overflow:hidden;transition:transform .3s,border-color .3s}
+.ym-song-card:hover .ym-song-image,.ym-song-card.is-active .ym-song-image{transform:translateY(-3px);border-color:rgba(255,255,255,.65)}
+.ym-song-play{display:grid;place-items:center;width:53px;height:53px;border-radius:50%;background:rgba(255,255,255,.25);backdrop-filter:blur(14px);border:1px solid #ffffff77;font-size:20px}
+.ym-song-card strong{display:block;font-size:14px;margin-top:12px;line-height:1.35}
+.ym-song-card small{display:block;color:#aeb9c6;margin-top:4px}
+.ym-songs-player{max-width:900px;margin-bottom:24px}
+.ym-songs-player iframe{display:block;width:100%;aspect-ratio:16/9;border:1px solid #ffffff35;border-radius:18px}
+.ym-songs-close{display:block;margin:0 0 12px auto}
+.ym-songs-empty{color:#abb5c2;padding:26px;border:1px solid #ffffff24;border-radius:20px;background:#ffffff09}
+.ym-songs-empty a{color:white}
+@media(max-width:600px){.ym-songs-heading{align-items:start;flex-direction:column}.ym-song-card{flex-basis:75vw}}
