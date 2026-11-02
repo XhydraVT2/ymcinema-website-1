@@ -41,11 +41,13 @@ export default async function Home({ searchParams }) {
   let slides, top, rows;
   try {
     const keys = [...BEFORE, ...AFTER].map((r) => r[0]);
-    [slides, top, ...rows] = await Promise.all([
-      getHeroSlides(),
+    [top, ...rows] = await Promise.all([
       getCategory(ttype === "tv" ? "hindi-series-top" : "bollywood-top-rated"),
       ...keys.map((k) => getCategory(k)),
     ]);
+    // The hero uses the exact same ordered TMDB results as the Trending Bollywood row.
+    const trendingRow = rows.find((r) => r.key === "bollywood-trending");
+    slides = await getHeroSlides(trendingRow?.results || []);
   } catch (e) {
     return (
       <div className="err">
