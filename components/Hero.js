@@ -1,5 +1,6 @@
 "use client";
 import PlayIcon from "./PlayIcon";
+import InfoIcon from "./InfoIcon";
 import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -84,7 +85,7 @@ export default function Hero({ slides }) {
               <PlayIcon /> Play
             </Link>
             <Link className="btn glass" href={`/${s.type}/${s.id}`}>
-              ⓘ More Info
+              <InfoIcon /> More Info
             </Link>
           </div>
 
