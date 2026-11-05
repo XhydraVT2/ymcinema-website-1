@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import MoviePlayer from "./MoviePlayer";
 
-const names = Array.from({length:7},(_,i)=>`Watch ${i+1}`);
+const names = Array.from({length:8},(_,i)=>`Watch ${i+1}`);
 export default function WatchExperience({movieId,type,title,seasons,initialSeason=1,initialEpisode=1}) {
   const router = useRouter();
   const [selected,setSelected] = useState(0);
@@ -20,7 +20,8 @@ export default function WatchExperience({movieId,type,title,seasons,initialSeaso
     { movie:id=>`https://nxsha.space/embed/movie/${id}?autoplay=true`,tv:(id,s,e)=>`https://nxsha.space/embed/tv/${id}/${s}/${e}?autoplay=true`,sandbox:true },
     { movie:id=>`https://cinesrc.st/embed/movie/${id}?autoplay=true`,tv:(id,s,e)=>`https://cinesrc.st/embed/tv/${id}?s=${s}&e=${e}&autoplay=true`,sandbox:true },
     { movie:id=>`https://embed.vidrift.net/embed/movie/${id}?autoplay=true`,tv:(id,s,e)=>`https://embed.vidrift.net/embed/tv/${id}/${s}/${e}?autoplay=true`,sandbox:false },
-    { movie:id=>`https://rivestream.ru/watch?type=movie&id=${id}&autoplay=true`,tv:(id,s,e)=>`https://rivestream.ru/watch?type=tv&id=${id}&season=${s}&episode=${e}&autoplay=true`,sandbox:true }
+    { movie:id=>`https://rivestream.ru/watch?type=movie&id=${id}&autoplay=true`,tv:(id,s,e)=>`https://rivestream.ru/watch?type=tv&id=${id}&season=${s}&episode=${e}&autoplay=true`,sandbox:true },
+    { movie:id=>`https://flixtube.tv/player?${new URLSearchParams({type:'movie',id:String(id),title:title||'',autoplay:'1'}).toString()}`,tv:(id,s,e)=>`https://flixtube.tv/player?${new URLSearchParams({type:'tv',id:String(id),title:title||'',season:String(s),episode:String(e),autoplay:'1'}).toString()}`,sandbox:false }
   ];
   const source=sources[selected];
   const url=type==='tv'?source.tv(movieId,season,episode):source.movie(movieId);
