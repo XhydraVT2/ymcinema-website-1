@@ -1,5 +1,5 @@
-import PlayIcon from "./PlayIcon";
 "use client";
+import PlayIcon from "./PlayIcon";
 import {useEffect,useRef,useState} from "react";
 const tabs=[["trending","Trending now"],["new","New releases"],["romantic","Romantic"],["dance","Dance"],["classics","Classics"]];
 const favoriteKey="ymcinema.youtube.music.favorites.v39";

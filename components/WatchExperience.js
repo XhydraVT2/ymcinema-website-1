@@ -1,5 +1,5 @@
-import PlayIcon from "./PlayIcon";
 "use client";
+import PlayIcon from "./PlayIcon";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import MoviePlayer from "./MoviePlayer";

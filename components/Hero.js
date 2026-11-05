@@ -1,5 +1,5 @@
-import PlayIcon from "./PlayIcon";
 "use client";
+import PlayIcon from "./PlayIcon";
 import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
