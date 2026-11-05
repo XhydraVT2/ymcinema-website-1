@@ -1,3 +1,4 @@
+import PlayIcon from "./PlayIcon";
 "use client";
 import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
@@ -80,7 +81,7 @@ export default function Hero({ slides }) {
 
           <div className="hero-actions">
             <Link className="btn primary" href={`/watch/${s.type}/${s.id}`}>
-              ▶ Play
+              <PlayIcon /> Play
             </Link>
             <Link className="btn glass" href={`/${s.type}/${s.id}`}>
               ⓘ More Info
@@ -117,7 +118,7 @@ export default function Hero({ slides }) {
                 <div className="th">
                   <Image src={`${IMG}/w500${slides[idx].backdrop}`} alt={slides[idx].title} fill sizes="200px" />
                 </div>
-                <div className="nm">{slides[idx].title}</div><span className="upnext-play" aria-hidden="true">▶</span>
+                <div className="nm">{slides[idx].title}</div><span className="upnext-play" aria-hidden="true"><PlayIcon /></span>
               </button>
             ))}
           </div>

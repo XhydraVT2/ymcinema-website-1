@@ -1,3 +1,4 @@
+import PlayIcon from "./PlayIcon";
 "use client";
 
 import { useState } from "react";
@@ -40,7 +41,7 @@ export default function MoviePlayer({ movieId, type = "movie" }) {
         {playing ? (
           <iframe key={url} src={url} title={`Watch ${selected + 1} player`} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowFullScreen referrerPolicy="no-referrer" loading="lazy" {...(source.sandbox ? { sandbox: "allow-scripts allow-same-origin allow-presentation" } : {})} />
         ) : (
-          <div className="movie-player-idle"><button className="btn primary" type="button" onClick={() => setPlaying(true)}>▶ Play now</button></div>
+          <div className="movie-player-idle"><button className="btn primary" type="button" onClick={() => setPlaying(true)}><PlayIcon /> Play now</button></div>
         )}
       </div>
       {playing && <button className="movie-player-stop" type="button" onClick={stop}>■ Stop playback</button>}

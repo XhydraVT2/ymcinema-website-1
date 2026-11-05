@@ -1,3 +1,4 @@
+import PlayIcon from "./PlayIcon";
 import Link from "next/link";
 import Image from "next/image";
 import CarouselRail from "./CarouselRail";
@@ -22,7 +23,7 @@ export function Card({ item, type }) {
     <Reveal className="reveal-card"><SpotlightCard><Link href={`/${t}/${item.id}`} className="wcard premium-card">
       <div className="thumb">
         <span className="glass-sheen" aria-hidden="true" />
-        <span className="glass-play" aria-hidden="true">▶</span>
+        <span className="glass-play" aria-hidden="true"><PlayIcon /></span>
         {src ? (
           <Image src={src} alt={title} fill sizes="(max-width: 700px) 80vw, 370px" />
         ) : (
