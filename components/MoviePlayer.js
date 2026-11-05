@@ -4,7 +4,7 @@ import { useState } from "react";
 
 // Source order and iframe restrictions follow the supplied legacy configuration.
 const SOURCES = [
-  { movie: (id) => `https://cinevu.icu/player.html?type=movie&id=${id}`, tv: (id,s,e) => `https://embed.cinevu.icu/embed/tv/${id}/${s}/${e}`, sandbox: false },
+  { movie: (id) => `https://cinevu.icu/player.html?type=movie&id=${id}`, tv: (id,s,e) => `https://embed.cinevu.icu/embed/tv/${id}/${s}/${e}`, sandbox: true },
   { movie: (id) => `https://player.cinezo.live/embed/movie/${id}?autoplay=true`, tv: (id,s,e) => `https://player.cinezo.live/embed/tv/${id}/${s}/${e}?autoplay=true`, sandbox: true },
   { movie: (id) => `https://vidzen.fun/movie/${id}?autoPlay=true`, tv: (id,s,e) => `https://vidzen.fun/tv/${id}?season=${s}&episode=${e}&autoPlay=true`, sandbox: true },
   { movie: (id) => `https://nxsha.space/embed/movie/${id}?autoplay=true`, tv: (id,s,e) => `https://nxsha.space/embed/tv/${id}/${s}/${e}?autoplay=true`, sandbox: true },

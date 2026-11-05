@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import MoviePlayer from "./MoviePlayer";
 
-const names = Array.from({length:8},(_,i)=>`Watch ${i+1}`);
+const names = Array.from({length:7},(_,i)=>`Watch ${i+1}`);
 export default function WatchExperience({movieId,type,title,seasons,initialSeason=1,initialEpisode=1}) {
   const router = useRouter();
   const [selected,setSelected] = useState(0);
@@ -14,14 +14,13 @@ export default function WatchExperience({movieId,type,title,seasons,initialSeaso
   useEffect(()=>{setSeason(initialSeason);setEpisode(initialEpisode);setStarted(false);setLoading(false);},[movieId,initialSeason,initialEpisode]);
   const updateEpisode=(s,e)=>{const nextSeason=Math.min(seasons,Math.max(1,Number(s)||1));const nextEpisode=Math.max(1,Number(e)||1);setSeason(nextSeason);setEpisode(nextEpisode);setStarted(false);setLoading(false);router.push(`/watch/tv/${movieId}?season=${nextSeason}&episode=${nextEpisode}`,{scroll:false});};
   const sources = [
-    { movie:id=>`https://cinevu.icu/player.html?type=movie&id=${id}`,tv:(id,s,e)=>`https://embed.cinevu.icu/embed/tv/${id}/${s}/${e}`,sandbox:false },
+    { movie:id=>`https://cinevu.icu/player.html?type=movie&id=${id}`,tv:(id,s,e)=>`https://embed.cinevu.icu/embed/tv/${id}/${s}/${e}`,sandbox:true },
     { movie:id=>`https://player.cinezo.live/embed/movie/${id}?autoplay=true`,tv:(id,s,e)=>`https://player.cinezo.live/embed/tv/${id}/${s}/${e}?autoplay=true`,sandbox:true },
     { movie:id=>`https://vidzen.fun/movie/${id}?autoPlay=true`,tv:(id,s,e)=>`https://vidzen.fun/tv/${id}?season=${s}&episode=${e}&autoPlay=true`,sandbox:true },
     { movie:id=>`https://nxsha.space/embed/movie/${id}?autoplay=true`,tv:(id,s,e)=>`https://nxsha.space/embed/tv/${id}/${s}/${e}?autoplay=true`,sandbox:true },
     { movie:id=>`https://cinesrc.st/embed/movie/${id}?autoplay=true`,tv:(id,s,e)=>`https://cinesrc.st/embed/tv/${id}?s=${s}&e=${e}&autoplay=true`,sandbox:true },
     { movie:id=>`https://embed.vidrift.net/embed/movie/${id}?autoplay=true`,tv:(id,s,e)=>`https://embed.vidrift.net/embed/tv/${id}/${s}/${e}?autoplay=true`,sandbox:false },
-    { movie:id=>`https://rivestream.ru/watch?type=movie&id=${id}&autoplay=true`,tv:(id,s,e)=>`https://rivestream.ru/watch?type=tv&id=${id}&season=${s}&episode=${e}&autoplay=true`,sandbox:true },
-    { movie:id=>`https://flixtube.tv/player?${new URLSearchParams({type:'movie',id:String(id),title:title||'',autoplay:'1'}).toString()}`,tv:(id,s,e)=>`https://flixtube.tv/player?${new URLSearchParams({type:'tv',id:String(id),title:title||'',season:String(s),episode:String(e),autoplay:'1'}).toString()}`,sandbox:false }
+    { movie:id=>`https://rivestream.ru/watch?type=movie&id=${id}&autoplay=true`,tv:(id,s,e)=>`https://rivestream.ru/watch?type=tv&id=${id}&season=${s}&episode=${e}&autoplay=true`,sandbox:true }
   ];
   const source=sources[selected];
   const url=type==='tv'?source.tv(movieId,season,episode):source.movie(movieId);
