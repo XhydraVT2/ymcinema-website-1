@@ -1148,3 +1148,7 @@ html, body { scroll-behavior: auto !important; overscroll-behavior-y: auto; }
 .test-stream-alert{background:#6d1d2a80;color:#ffe5ed}
 @media(max-width:970px){.test-stream-layout{grid-template-columns:1fr}.test-stream-aside{max-width:none}.test-stream-source-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.test-stream-page{padding:100px 16px 55px}.test-stream-top{font-size:9px;letter-spacing:.08em}.test-stream-header{padding:35px 0 22px}.test-stream-source-list{grid-template-columns:1fr}.test-stream-aside{padding:15px}.test-stream-detail-button{gap:5px}.test-stream-beta{font-size:8px}}
+
+/* Safari/iPhone diagnostics for the optional test-stream player only. */
+.test-stream-apple-note{font-size:12px;line-height:1.6;margin-top:13px;color:#b7bdca;padding:13px 16px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.10);border-radius:11px}
+.test-stream-apple-note strong{color:#f0eff5}

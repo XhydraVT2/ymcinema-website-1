@@ -24,3 +24,11 @@ The server requests `stream/movie/<IMDb-ID>.json` from the configured addons, fa
 ### Local test
 
 Copy `.env.local.example` to `.env.local`, fill the values, run `npm install` and `npm run dev`, then open `/movie/<tmdb-id>`.
+
+## Safari compatibility update
+
+The Safari beta player now initializes direct HTTPS MP4 and native HLS playback inside the **Watch** button tap. This avoids losing iPhone/iPad's user activation when setting up the media source. On other browsers the existing hls.js path is preserved. Safari reports an explanatory HTMLMediaElement error code if it cannot play a source.
+
+**Not all streams will work on Apple devices.** For consistent Safari playback, the source server should provide standards-compliant HLS (`.m3u8`) or an MP4 with compatible H.264/AAC codecs, correct HTTPS/MIME responses and byte-range support. This website cannot convert MKV files, transcode audio/video, or repair remote server headers. The **original** Play / Watch page is untouched.
+
+The test feature is still disabled by setting `ENABLE_TEST_STREAM=false` and redeploying.
