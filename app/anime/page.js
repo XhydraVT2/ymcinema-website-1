@@ -4,7 +4,7 @@ import Genres from "../../components/Genres";
 import PlatformCarousel from "../../components/PlatformCarousel";
 import AnimeProviders from "../../components/AnimeProviders";
 import { Row, Top10 } from "../../components/Cards";
-import { getCategory, getHeroSlides } from "../../lib/tmdb";
+import { getCategory, getRecentAnimeHeroSlides } from "../../lib/tmdb";
 import { getProviders, getAnimeProviderTitles } from "../../lib/providers";
 
 export const metadata = {
@@ -47,12 +47,11 @@ export default async function AnimeHome({ searchParams }) {
   let slides, top, rows;
   try {
     const keys = [...BEFORE, ...AFTER].map(([key]) => key);
-    [top, ...rows] = await Promise.all([
+    [slides, top, ...rows] = await Promise.all([
+      getRecentAnimeHeroSlides(8),
       getCategory(topType === "movie" ? "anime-movies-top-rated" : "anime-top-rated"),
       ...keys.map((key) => getCategory(key)),
     ]);
-    const trending = rows.find((row) => row.key === "anime-trending");
-    slides = await getHeroSlides(trending?.results || [], 8, "tv");
   } catch (e) {
     console.error("Anime catalog could not load:", e);
     return (
@@ -84,7 +83,7 @@ export default async function AnimeHome({ searchParams }) {
 
   return (
     <>
-      <Hero slides={slides} tag="Anime" />
+      <Hero slides={slides} tag="New Anime" />
       <main className="wrap">
         {BEFORE.map(wide)}
         <AnimeProviders
