@@ -15,7 +15,7 @@ function Chevron({ dir }) {
   );
 }
 
-export default function Hero({ slides }) {
+export default function Hero({ slides, tag = "Trending" }) {
   const n = slides.length;
   const [i, setI] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -54,7 +54,7 @@ export default function Hero({ slides }) {
           <div className="hero-tag">
             <span className="brand glass">YMCINEMA</span>
             <span>
-              ● #{i + 1} Trending · {s.type === "tv" ? "Series" : "Movie"}
+              ● #{i + 1} {tag} · {s.type === "tv" ? "Series" : "Movie"}
               {s.year ? ` · ${s.year}` : ""}
             </span>
           </div>

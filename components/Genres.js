@@ -20,7 +20,7 @@ const GENRES = [
   {id:878,tv:10765,name:"Sci-Fi",color:"#4284b6"},
   {id:53,tv:9648,name:"Thriller",color:"#8c6a6a"},
 ];
-export default function Genres({movies=[],shows=[]}) {
+export default function Genres({movies=[],shows=[], originalLanguage="hi", basePath="/genre"}) {
   const [type,setType] = useState("movie");
   const railRef = useRef(null);
   const [edges,setEdges] = useState({start:true,end:false});
@@ -47,15 +47,15 @@ export default function Genres({movies=[],shows=[]}) {
     const count = Math.max(1,Math.floor(el.clientWidth/(width+gap)));
     el.scrollBy({left:direction*(width+gap)*count,behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
   }
-  const items = (type === "tv" ? shows : movies).filter(item => item.original_language === "hi");
+  const items = (type === "tv" ? shows : movies).filter(item => item.original_language === originalLanguage);
   return <section className="sec genre-section" id="genres">
-    <Reveal><div className="sec-head"><div><p className="eyebrow">Find your mood</p><h2>Browse by genre</h2></div><div className="head-right"><div className="toggle glass" aria-label="Choose media type"><button type="button" className={type === "movie" ? "on" : ""} onClick={()=>{setType("movie");railRef.current?.scrollTo({left:0});}}>▦ Movies</button><button type="button" className={type === "tv" ? "on" : ""} onClick={()=>{setType("tv");railRef.current?.scrollTo({left:0});}}>▢ TV Shows</button></div><Link className="pill-link glass" href={`/genre/${type}/28`}>Browse Action ↗</Link></div></div></Reveal>
+    <Reveal><div className="sec-head"><div><p className="eyebrow">Find your mood</p><h2>Browse by genre</h2></div><div className="head-right"><div className="toggle glass" aria-label="Choose media type"><button type="button" className={type === "movie" ? "on" : ""} onClick={()=>{setType("movie");railRef.current?.scrollTo({left:0});}}>▦ Movies</button><button type="button" className={type === "tv" ? "on" : ""} onClick={()=>{setType("tv");railRef.current?.scrollTo({left:0});}}>▢ TV Shows</button></div><Link className="pill-link glass" href={`${basePath}/${type}/28`}>Browse Action ↗</Link></div></div></Reveal>
     <div className="genre-carousel-shell">
       <button type="button" className="genre-nav genre-nav-prev" aria-label="Scroll genres left" onClick={()=>scrollGenres(-1)} disabled={edges.start}>‹</button>
       <div className="genre-rail" ref={railRef} onScroll={refresh} tabIndex={0} role="region" aria-roledescription="carousel" aria-label="Browse genres">{GENRES.map((genre,i)=>{
       const id=type==="tv"?genre.tv:genre.id;
       const image=items.find(m=>m.genre_ids?.includes(id)&&m.backdrop_path)?.backdrop_path || items.find(m=>m.backdrop_path)?.backdrop_path;
-      return <Reveal key={`${type}-${genre.name}`} className="genre-reveal"><Link href={`/genre/${type}/${id}`} className="genre-tile" style={{"--genre-accent":genre.color,"--genre-delay":`${i*35}ms`}}><span className="genre-art">{image && <Image src={`${IMG}/w780${image}`} alt="" fill sizes="220px"/>}</span><span className="genre-shade"/><span className="genre-title">{genre.name}</span><span className="genre-arrow" aria-hidden="true">↗</span></Link></Reveal>
+      return <Reveal key={`${type}-${genre.name}`} className="genre-reveal"><Link href={`${basePath}/${type}/${id}`} className="genre-tile" style={{"--genre-accent":genre.color,"--genre-delay":`${i*35}ms`}}><span className="genre-art">{image && <Image src={`${IMG}/w780${image}`} alt="" fill sizes="220px"/>}</span><span className="genre-shade"/><span className="genre-title">{genre.name}</span><span className="genre-arrow" aria-hidden="true">↗</span></Link></Reveal>
     })}</div>
       <button type="button" className="genre-nav genre-nav-next" aria-label="Scroll genres right" onClick={()=>scrollGenres(1)} disabled={edges.end}>›</button>
     </div>
